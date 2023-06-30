@@ -1,0 +1,17 @@
+.ChildrenContainer{
+    margin-top: 100px;   
+    
+}
+
+.AppBody{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    color: #FFFFFF;
+    justify-content: center;
+    
+}

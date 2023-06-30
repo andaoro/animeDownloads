@@ -1,0 +1,65 @@
+.animes_dowloaded_container_grid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:30px;
+    justify-content: center;
+    justify-items: center;
+    padding: 2rem 10rem;
+    box-sizing: border-box;
+}
+
+.anime_Dowloaded_Card{
+    padding: 0.5rem;
+}
+
+.anime_Dowloaded_Card > p{
+    font-weight: bold;
+}
+
+.anime_Dowloaded_Card > span{
+    font-size: 12px;
+    color: rgb(214, 213, 213);
+}
+
+.anime_Dowloaded_Card:hover{
+    background-color: #141519;
+    cursor: pointer;
+}
+
+.anime_Dowloaded_Card:hover > p{
+    text-decoration: underline;
+}
+
+@media(max-width:1450px){
+    .animes_dowloaded_container_grid{
+        grid-template-columns: repeat(3,1fr);
+        padding: 2rem 0rem;
+    }
+}
+
+@media(max-width:1050px){
+    .animes_dowloaded_container_grid{
+        grid-template-columns: repeat(2,1fr);
+        padding: 2rem 0rem;
+
+    }
+}
+
+@media(max-width:650px){
+    .animes_dowloaded_container_grid{
+        grid-template-columns: repeat(1,1fr);
+        padding: 2rem 0rem;
+
+    }
+}
+
+@media(min-width:2000px){
+    .animes_dowloaded_container_grid{
+        grid-template-columns: repeat(5,1fr);
+        font-size: 30px;
+    }
+
+    .anime_Dowloaded_Card > span{
+        font-size: 22px;
+    }
+}

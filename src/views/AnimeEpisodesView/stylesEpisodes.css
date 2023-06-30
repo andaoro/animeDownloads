@@ -1,0 +1,52 @@
+.image_Episode_Container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    .image_Episode_Container > img{
+        border-radius: 2px;
+    }
+
+.PlayEpisode{
+    position: absolute;
+    margin: auto;
+    display: none;
+}
+
+.card_Episodes{
+    cursor: pointer;
+    padding: .5rem;
+    color: white;
+    text-decoration: none;
+}
+
+.card_Episodes:hover{
+    cursor: pointer;
+    background-color: #141519;
+    
+}
+
+.card_Episodes:hover .PlayEpisode{
+    display: block;
+}
+
+.episode_anime_title{
+    font-size: 12px;
+    color: rgb(214, 213, 213)
+}
+
+.providers_Episodes{
+    margin: 1rem 0;
+}
+
+.episode_Provider{
+    font-size: 13px;
+    background-color: white;
+    color: #000000;
+    margin-right: 10px;
+    padding: 0.45rem;
+    border-radius: 10px;
+    font-weight: bold;
+}
+    

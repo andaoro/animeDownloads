@@ -1,0 +1,92 @@
+.ContainerBody{
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+}
+
+.ContainerForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.FormBody{
+    background-color: #141519;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 5rem;
+}
+
+.ContainerInput{
+    width: 500px;
+    border-bottom: 2px solid rgb(138, 138, 138);
+    margin-top: 3rem;
+}
+
+.ContainerInput--focus{
+    border-bottom: 2px solid #0977b9;
+}
+
+.InputLogin{
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font: inherit;
+    padding-bottom: 1rem;
+    position: relative;
+    width: 100%;
+    outline: none;
+}
+
+label{
+    cursor: default;
+}
+
+.inputTextWrap{
+    position: absolute;
+    padding-bottom: 1rem;
+    overflow: hidden;
+    display: block;
+    transition: transform .2s cubic-bezier(.5,0,.25,1);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.inputTextFocused{
+    transform: translateY(-1.5rem);
+    font-size: 13px;
+    color: rgb(197, 196, 196);
+}
+
+.ViewPassword{
+    color: #a8aab6;
+    font-weight: bold;
+}
+
+.ViewPassword:hover{
+    color: #d2d5e0;
+}
+
+.btnAcceder{
+    margin-top: 3rem;
+    padding: 1rem 3rem; 
+    font-size: 17px;
+    background-color: #0977b9;
+    font-weight: 600;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+

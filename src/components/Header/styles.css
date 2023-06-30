@@ -1,0 +1,23 @@
+header{
+    background-color: #0977B9;
+    padding: 1rem 8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    width: 100vw;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    height: auto;
+    text-transform: capitalize;
+}
+
+
+@media(max-width:400px){
+    header >img{
+        display: none;
+    }
+}
