@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
-import { IAnimesDownloadedProps } from '../Home/HomeScreen';
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import './stylesEpisodes.css'
 import axios from 'axios';
