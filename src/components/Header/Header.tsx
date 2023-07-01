@@ -22,7 +22,7 @@ const Header:React.FC = () => {
     return (
         <header>
             <img src={logo} alt='Logo' style={{ width: '40px',cursor:'pointer' }} onClick={()=>{navigate('/home')}}/>
-            <span>{user?.username}</span>
+            <span className='userName'>{user?.username}</span>
             <span style={{cursor:'pointer'}} onClick={()=>{
                 localStorage.removeItem('UserInfo')
                 window.location.reload()

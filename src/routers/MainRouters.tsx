@@ -12,7 +12,7 @@ export const MainRouters = () => {
             <Route path='/' Component={App}/>
             <Route path='/login' Component={Login}/>
             <Route path='/home' Component={HomeScreen}/>
-            <Route path='/anime/episodes' Component={AnimeEpisodesView}/>
+            <Route path='/anime/:id/episodes' Component={AnimeEpisodesView}/>
             <Route path='/anime/info/:anime' Component={AnimeInfo}/>
         </Routes>
     </BrowserRouter>

@@ -90,3 +90,25 @@ label{
 }
 
 
+@media(max-width:800px){
+    .ContainerInput{
+        width: 100%;
+    }
+
+    .FormBody{
+        width: 80vw;
+    }
+}
+
+@media(max-width:500px){
+    .FormBody{
+        width: 90vw;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
+    }
+
+    .InputLogin:nth-child(1){
+        width:70% !important;
+    }
+}

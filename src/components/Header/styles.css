@@ -16,8 +16,12 @@ header{
 }
 
 
-@media(max-width:400px){
-    header >img{
+@media(max-width:600px){
+    .userName{
         display: none;
+    }
+
+    header{
+        padding: 1rem 3rem !important
     }
 }
