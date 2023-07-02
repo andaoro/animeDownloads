@@ -1,7 +1,7 @@
 .animes_dowloaded_container_grid{
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    gap:30px;
+    gap:10px;
     justify-content: center;
     justify-items: center;
     padding: 2rem 10rem;
@@ -15,6 +15,16 @@
 .anime_Dowloaded_Card > p{
     font-weight: bold;
 }
+
+.anime_Dowloaded_Card > div{
+    max-width: 100%;
+}
+
+.anime_Dowloaded_Card > div >p {
+    width: 80%;
+}
+
+
 
 .anime_Dowloaded_Card > span{
     font-size: 12px;

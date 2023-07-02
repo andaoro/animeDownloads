@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './styles.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { IDataUserProps } from '../../Context/UserContext'
 
 const Login = () => {
     const [usernameFocused, setusernameFocused] = useState(false)
@@ -10,7 +11,17 @@ const Login = () => {
     const [password, setpassword] = useState('')
     const [viewPassword, setviewPassword] = useState(false)
     const [errosMessage, setErrorMessage] = useState('')
-    const navigation = useNavigate()
+    const navigate = useNavigate()
+
+    let userData: string | null = localStorage.getItem('UserInfo')
+    let usuario: IDataUserProps;
+
+    useEffect(() => {
+        if (userData) {
+            usuario = JSON.parse(userData)
+            navigate('/home')
+        }
+    }, [])
 
     useEffect(() => {
         if (errosMessage.toString().trim() !== "") {
@@ -45,7 +56,7 @@ const Login = () => {
                 if (response.status == 200) {
                     console.log(response.data)
                     localStorage.setItem("UserInfo", JSON.stringify(response.data))
-                    navigation("/home")
+                    navigate("/home")
                 } else {
                     setErrorMessage("Ha ocurrido un error inesperado")
                 }
@@ -79,8 +90,8 @@ const Login = () => {
                                 className='InputLogin'
                                 onFocus={() => setusernameFocused(true)}
                                 onBlur={validarInputUsername}
-                                onKeyUp={(e)=>{
-                                    if(e.keyCode === 13){
+                                onKeyUp={(e) => {
+                                    if (e.keyCode === 13) {
                                         login()
                                     }
                                 }}
@@ -101,8 +112,8 @@ const Login = () => {
                                     onFocus={() => setpasswordFocused(true)}
                                     onBlur={validarInputPassword}
                                     style={{ width: "85%" }}
-                                    onKeyUp={(e)=>{
-                                        if(e.keyCode === 13){
+                                    onKeyUp={(e) => {
+                                        if (e.keyCode === 13) {
                                             login()
                                         }
                                     }}

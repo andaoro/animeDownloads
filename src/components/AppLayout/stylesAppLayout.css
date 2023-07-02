@@ -1,5 +1,5 @@
 .ChildrenContainer{
-    margin-top: 100px;   
+    margin-top: 72px;   
     
 }
 
@@ -12,6 +12,6 @@
     left: 0;
     background-color: #000000;
     color: #FFFFFF;
-    justify-content: center;
-    
+    justify-content: center; 
+    overflow-x: hidden;
 }

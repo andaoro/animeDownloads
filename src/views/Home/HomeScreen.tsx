@@ -36,7 +36,6 @@ const HomeScreen: React.FC = () => {
       }
     }).then((res) => {
       if (res.status === 200) {
-        console.log(res.data.elements)
         setanimesDownloadedArray(res.data.elements)
         setisLoading(false)
       }
@@ -55,7 +54,9 @@ const HomeScreen: React.FC = () => {
               animesDownloadedArray.map((anime, index) => (
                 <div key={index} className="anime_Dowloaded_Card" onClick={()=>{navigate(`/anime/${anime.id}/episodes`)}}>
                   <img src={`https://animedownloader.jmarango.co${anime.imageUrl}`} />
-                  <p>{anime.title}</p>
+                  <div>
+                    <p>{anime.title}</p>
+                  </div>
                   <span> {anime.emissionDate ? `Next: ${anime.emissionDate}` : ""}</span>
                 </div>
               ))

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import './stylesEpisodes.css'
 import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import { Loading } from '../../components/Loading/Loading';
+import { AnimePresentation } from '../../components/AnimePresentationEpisodes/AnimePresentation';
 
 interface IDownloadOptions {
     dateDownloaded: string
@@ -14,7 +15,7 @@ interface IDownloadOptions {
     id: number
 }
 
-interface IElementsData {
+export interface IElementsData {
     imageUrl: string,
     id: number
     episodeTitle: string
@@ -22,7 +23,7 @@ interface IElementsData {
     downloadedEpisodes: IDownloadOptions[]
 }
 
-interface IObjectData {
+export interface IObjectData {
     autoUpdate: string
     id: number
     imageUrl: string
@@ -41,18 +42,38 @@ export const AnimeEpisodesView: React.FC = () => {
     const [episodes, setepisodes] = useState<IElementsData[]>([])
     const [isLoadingDataEpisodes, setisLoadingDataEpisodes] = useState(true)
     const [pagenumber, setpagenumber] = useState(0)
-    const [buttonNextView, setbuttonNextView] = useState(true)
-    const [buttonPrevView, setbuttonPrevView] = useState(false)
+    const [morePages, setmorePages] = useState(true)
     const { user } = useContext(UserContext)
     const { id } = useParams()
 
 
     useEffect(() => {
-        if (user && user.accessToken.trim() !== "") {
+        if (user && user.accessToken !== "") {
             getAnimeEpisodes()
         }
-    }, [user, pagenumber])
+    }, [user])
 
+    /* useEffect(()=>{
+        window.location.reload()
+    },[]) */
+
+    useEffect(() => {
+
+        window.addEventListener('scroll', handleScroll); // Agrega un event listener para detectar el scroll
+        return () => {
+            window.removeEventListener('scroll', handleScroll); // Elimina el event listener al desmontar el componente
+        };
+
+    }, [user, pagenumber, morePages]);
+
+
+    const handleScroll = () => {
+        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        // Si el scroll llega al final de la página, carga más datos
+        if (scrollTop + clientHeight >= scrollHeight) {
+            getAnimeEpisodesScroll();
+        }
+    };
 
     const getAnimeEpisodes = () => {
         axios.get(`https://animedownloader.jmarango.co/api/downloaded/${id}?page=${pagenumber}`, {
@@ -60,80 +81,79 @@ export const AnimeEpisodesView: React.FC = () => {
                 Authorization: `Bearer ${user.accessToken}`
             }
         }).then((response) => {
+            if (pagenumber !== response.data.totalPages - 1) {
+                setpagenumber(pagenumber + 1)
+            } else {
+                setmorePages(false)
+            }
             setanimeData(response.data)
-            setepisodes(response.data.elements)
             setisLoadingDataEpisodes(false)
-            if(pagenumber == 0){
-                setbuttonPrevView(false)
-            }else{
-                setbuttonPrevView(true)
-            }
+            setepisodes(response.data.elements)
 
-            if(pagenumber == animeData.totalPages - 1){
-                setbuttonNextView(false)
-            }else{
-                setbuttonNextView(true)
-            }
         }).catch((err) => {
             console.log(err)
         })
+
     }
 
-    console.log(animeData)
 
-    useEffect(() => {
-        if (episodes.length >= 1) {
-            /*  episodes.sort((a, b) => { return a.episodeNumber - b.episodeNumber }) */
+    const getAnimeEpisodesScroll = () => {
+        if (morePages) {
+            axios.get(`https://animedownloader.jmarango.co/api/downloaded/${id}?page=${pagenumber}`, {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`
+                }
+            }).then((response) => {
+                if (pagenumber !== response.data.totalPages - 1) {
+                    setpagenumber(pagenumber + 1)
+                } else {
+                    setmorePages(false)
+                }
+                setanimeData(response.data)
+                setisLoadingDataEpisodes(false)
+                setepisodes(prevData => [...prevData, ...response.data.elements])
+
+            }).catch((err) => {
+                console.log(err)
+            })
         }
-    }, [episodes])
+
+    }
+
 
     return (
         <AppLayout>
             {
                 !isLoadingDataEpisodes ?
-                (
-                    <>
-                        <div className='animes_dowloaded_container_grid'>
-                            {episodes.map((episode) => (
-                                <a key={episode.id} className='card_Episodes' href={`https://animedownloader.jmarango.co${episode.downloadedEpisodes[0].url}`}>
-                                    <div className='image_Episode_Container'>
-                                        <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} />
-                                        <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
-                                    </div>
-                                    <p className='episode_anime_title'>{animeData.object.title}</p>
-                                    <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
-                                    <div className='providers_Episodes'>
-                                        {
-                                            episode.downloadedEpisodes.map((downloadOptions) => (
-                                                <span key={downloadOptions.id} className='episode_Provider'> {downloadOptions.downloadOptionName} </span>
-                                            ))
-                                        }
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
+                    (
+                        <>
+                            <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
+                            <div className='animes_dowloaded_container_grid'>
+                                {episodes.map((episode) => (
+                                    <a key={episode.id} className='card_Episodes' href={`https://animedownloader.jmarango.co${episode.downloadedEpisodes[0].url}`}>
+                                        <div className='image_Episode_Container'>
+                                            <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} />
+                                            <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
+                                        </div>
+                                        <div>
+                                            <p className='episode_anime_title'>{animeData.object.title}</p>
+                                            <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
+                                            <div className='providers_Episodes'>
+                                                {
+                                                    episode.downloadedEpisodes.map((downloadOptions) => (
+                                                        <span key={downloadOptions.id} className='episode_Provider'> {downloadOptions.downloadOptionName} </span>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
 
-                        <div className='buttonsPagesContainer'>
-                            <button onClick={() => { 
-                                if (pagenumber > 0) {
-                                    setpagenumber(pagenumber - 1)
-                                }
-                             }}
-                            className={`buttonEpisodes ${!buttonPrevView && "dpnone"}`}
-                            >Anterior</button>
-                            <button onClick={() => {
-                                if (pagenumber < animeData.totalPages - 1) {
-                                    setpagenumber(pagenumber + 1)
-                                }
-                            }}
-                            className={`buttonEpisodes ${!buttonNextView && "dpnone"}`}
-                            >Siguiente</button>
-                        </div>
-                    </>
-
-                ):(
-                    <Loading/>
-                )
+                                    </a>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <Loading />
+                    )
             }
 
         </AppLayout>

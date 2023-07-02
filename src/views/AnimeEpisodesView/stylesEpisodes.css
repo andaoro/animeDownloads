@@ -70,5 +70,25 @@
     height: 50px;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.anime_Dowloaded_Card > div>  p {
+    max-width: 200px;
+}
+
+@media(max-width:650px){
+    .card_Episodes{
+        display: flex;
+        width: 100vw;
+        padding: 0 2rem;
+        box-sizing: border-box;
+    }
+
+    .image_Episode_Container >img{
+        width: 180px;
+        height: 100px;
+        padding-right: 1rem;
+    }
+
 
 }
