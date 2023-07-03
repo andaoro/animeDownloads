@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import './stylesEpisodes.css'
@@ -45,6 +45,7 @@ export const AnimeEpisodesView: React.FC = () => {
     const [morePages, setmorePages] = useState(true)
     const { user } = useContext(UserContext)
     const { id } = useParams()
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -58,13 +59,13 @@ export const AnimeEpisodesView: React.FC = () => {
     },[]) */
 
     useEffect(() => {
-
-        window.addEventListener('scroll', handleScroll); // Agrega un event listener para detectar el scroll
-        return () => {
-            window.removeEventListener('scroll', handleScroll); // Elimina el event listener al desmontar el componente
-        };
-
-    }, [user, pagenumber, morePages]);
+        if (user && user.accessToken !== "" && pagenumber !== 0 ) {
+            window.addEventListener('scroll', handleScroll); // Agrega un event listener para detectar el scroll
+            return () => {
+                window.removeEventListener('scroll', handleScroll); // Elimina el event listener al desmontar el componente
+            };
+        }
+    }, [pagenumber, morePages]);
 
 
     const handleScroll = () => {
@@ -130,7 +131,7 @@ export const AnimeEpisodesView: React.FC = () => {
                             <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
                             <div className='animes_dowloaded_container_grid'>
                                 {episodes.map((episode) => (
-                                    <a key={episode.id} className='card_Episodes' href={`https://animedownloader.jmarango.co${episode.downloadedEpisodes[0].url}`}>
+                                    <a key={episode.id} className='card_Episodes' onClick={() => { navigate(`/episodio/reproducir/${episode.downloadedEpisodes[0].id}`) }} >
                                         <div className='image_Episode_Container'>
                                             <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} />
                                             <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>

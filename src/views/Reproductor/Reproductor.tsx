@@ -1,22 +1,53 @@
-import { useRef,useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { AppLayout } from '../../components/AppLayout/AppLayout'
+import { useParams } from 'react-router-dom'
+import './stylesReproductor.css'
 
-export const Reproductor = () => {
-    const video = useRef<HTMLVideoElement>(null)
+export const Reproductor: React.FC = () => {
+  const video = useRef<HTMLVideoElement>(null)
+  const { id } = useParams()
 
-    useEffect(() => {
-      if(video.current){
-        console.log(video.current)
-        video.current.onloadedmetadata = () => {
-            const duration = video.current?.duration;
-            console.log('Duración del video:', duration, 'segundos');
-          };
+  const guardarVolumenActual = (event: Event) => {
+    const videoElement = event.currentTarget as HTMLVideoElement;
+    const volume = videoElement.volume;
+    console.log('Volumen actual:', volume);
+  };
+
+  useEffect(() => {
+    if (video.current) {
+      video.current.addEventListener('volumechange', guardarVolumenActual);
+    }
+    return () => {
+      if (video.current) {
+        video.current.removeEventListener('volumechange', guardarVolumenActual);
       }
-    }, [])
-    
-    return (
-        <AppLayout>
-            <video src='https://animedownloader.jmarango.co/watch/11' controls height={'500px'} width={'1000px'} ref={video} />
-        </AppLayout>
-    )
+    };
+  }, []);
+
+  return (
+    <AppLayout>
+      <div className='reproductor_video_Container'>
+        <video
+          src={`https://animedownloader.jmarango.co/watch/${id}`}
+          autoPlay
+          controls
+          ref={video}
+        /* onVolumeChange={(e)=>{console.log(e.target.volume)}} */
+        />
+      </div>
+
+      <div className='reproductor_anime_info'> 
+          <div className='anime_info'>
+            <div>
+              <p className='anime_info_tittle'>Tengoku Daimakyou</p>
+              <p>E1-Episodio 1</p>
+            </div>
+          </div>
+
+          <div>
+            <span>AAAA</span>
+          </div>
+      </div>
+    </AppLayout>
+  )
 }

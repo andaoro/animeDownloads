@@ -1,0 +1,28 @@
+.reproductor_video_Container{
+    width: 100vw;
+}
+
+.reproductor_video_Container >video{
+    width: 100%;
+    height: 70vh;
+}
+
+.reproductor_anime_info{
+    display: flex;
+    background-color: red;
+}
+.reproductor_anime_info >div{
+    padding: 2rem 10rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.anime_info{
+    display: flex;
+    flex-direction: column;
+}
+
+.anime_info_tittle{
+    font-size: 20px;
+}

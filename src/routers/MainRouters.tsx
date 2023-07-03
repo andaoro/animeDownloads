@@ -13,7 +13,7 @@ export const MainRouters = () => {
             <Route path='/login' Component={Login}/>
             <Route path='/home' Component={HomeScreen}/>
             <Route path='/anime/:id/episodes' Component={AnimeEpisodesView}/>
-            <Route path='/rep' Component={Reproductor}/>
+            <Route path='/episodio/reproducir/:id' Component={Reproductor}/>
         </Routes>
     </BrowserRouter>
   )
