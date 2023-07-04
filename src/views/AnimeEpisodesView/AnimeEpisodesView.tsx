@@ -122,6 +122,7 @@ export const AnimeEpisodesView: React.FC = () => {
     }
 
 
+    console.log(episodes)
     return (
         <AppLayout>
             {
@@ -131,7 +132,7 @@ export const AnimeEpisodesView: React.FC = () => {
                             <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
                             <div className='animes_dowloaded_container_grid'>
                                 {episodes.map((episode) => (
-                                    <a key={episode.id} className='card_Episodes' onClick={() => { navigate(`/episodio/reproducir/${episode.downloadedEpisodes[0].id}`) }} >
+                                    <a key={episode.id} className='card_Episodes' onClick={() => { navigate(`/episodio/reproducir/${episode.id}?anime=18&episodio=23`) }} >
                                         <div className='image_Episode_Container'>
                                             <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} />
                                             <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>

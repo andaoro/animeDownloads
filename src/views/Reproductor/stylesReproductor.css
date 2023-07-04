@@ -9,7 +9,6 @@
 
 .reproductor_anime_info{
     display: flex;
-    background-color: red;
 }
 .reproductor_anime_info >div{
     padding: 2rem 10rem;

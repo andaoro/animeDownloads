@@ -1,13 +1,19 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect,useContext,useState } from 'react'
 import { AppLayout } from '../../components/AppLayout/AppLayout'
 import { useParams } from 'react-router-dom'
 import './stylesReproductor.css'
+import UserContext from '../../Context/UserContext'
+import axios from 'axios'
 
 export const Reproductor: React.FC = () => {
-  const video = useRef<HTMLVideoElement>(null)
+  const video = useRef<HTMLVideoElement>(null) 
   const { id } = useParams()
+  const { user } = useContext(UserContext)
+  const [animeTittle, setanimeTittle] = useState('')
+  const [episodeNumber, setepisodeNumber] = useState(0)
+  const [urlEpisode, seturlEpisode] = useState('')
 
-  const guardarVolumenActual = (event: Event) => {
+  /* const guardarVolumenActual = (event: Event) => {
     const videoElement = event.currentTarget as HTMLVideoElement;
     const volume = videoElement.volume;
     console.log('Volumen actual:', volume);
@@ -22,30 +28,53 @@ export const Reproductor: React.FC = () => {
         video.current.removeEventListener('volumechange', guardarVolumenActual);
       }
     };
-  }, []);
+  }, []); */
+
+  useEffect(()=>{
+    if(user && user.accessToken !== ""){
+      consultarDetallesCapitulo()
+    }
+  },[user])
+
+  const consultarDetallesCapitulo = () =>{
+    axios.get(`https://animedownloader.jmarango.co/api/downloaded/1/${id}`,
+    {
+      headers:{
+        Authorization:`Bearer ${user.accessToken}`
+      }
+    }).then((response)=>{
+      console.log(response)
+      setanimeTittle(response.data.animeTitle)
+      setepisodeNumber(response.data.episodeNumber)
+      seturlEpisode(response.data.downloadedEpisodes[0].url)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
 
   return (
     <AppLayout>
       <div className='reproductor_video_Container'>
         <video
-          src={`https://animedownloader.jmarango.co/watch/${id}`}
+          src={`https://animedownloader.jmarango.co${urlEpisode}`}
           autoPlay
           controls
           ref={video}
-        /* onVolumeChange={(e)=>{console.log(e.target.volume)}} */
         />
       </div>
-
+    
       <div className='reproductor_anime_info'> 
           <div className='anime_info'>
             <div>
-              <p className='anime_info_tittle'>Tengoku Daimakyou</p>
-              <p>E1-Episodio 1</p>
+              <p className='anime_info_tittle'>{animeTittle}</p>
+              <p>E{episodeNumber}-Episodio {episodeNumber}</p>
             </div>
           </div>
 
-          <div>
-            <span>AAAA</span>
+          <div className='anime_info'>
+            <div>
+              
+            </div>
           </div>
       </div>
     </AppLayout>
