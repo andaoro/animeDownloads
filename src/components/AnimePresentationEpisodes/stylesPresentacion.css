@@ -57,7 +57,9 @@
 }
 
 .presentacion_capview_imagen >img{
-    width: 100%;
+    width: 200px;
+    height: 150px;
+    object-fit: contain;    
 }
 .presentacion_capview_icon_play{
     position: absolute;

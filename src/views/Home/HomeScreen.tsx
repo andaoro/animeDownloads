@@ -53,7 +53,7 @@ const HomeScreen: React.FC = () => {
             {
               animesDownloadedArray.map((anime, index) => (
                 <div key={index} className="anime_Dowloaded_Card" onClick={()=>{navigate(`/anime/${anime.id}/episodes`)}}>
-                  <img src={`https://animedownloader.jmarango.co${anime.imageUrl}`} />
+                  <img src={`https://animedownloader.jmarango.co${anime.imageUrl}`} className="imgwh"/>
                   <div>
                     <p>{anime.title}</p>
                   </div>

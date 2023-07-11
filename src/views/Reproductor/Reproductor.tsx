@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import './stylesReproductor.css'
 import UserContext from '../../Context/UserContext'
 import axios from 'axios'
+import { ReproductorLayout } from '../../components/ReproductorLayout/ReproductosLayout'
 
 export const Reproductor: React.FC = () => {
   const video = useRef<HTMLVideoElement>(null) 
@@ -12,6 +13,8 @@ export const Reproductor: React.FC = () => {
   const [animeTittle, setanimeTittle] = useState('')
   const [episodeNumber, setepisodeNumber] = useState(0)
   const [urlEpisode, seturlEpisode] = useState('')
+  const [next, setnext] = useState({})
+  const [prev, setprev] = useState({})
 
   /* const guardarVolumenActual = (event: Event) => {
     const videoElement = event.currentTarget as HTMLVideoElement;
@@ -43,7 +46,12 @@ export const Reproductor: React.FC = () => {
         Authorization:`Bearer ${user.accessToken}`
       }
     }).then((response)=>{
-      console.log(response)
+      if(response.data.next){
+        setnext(response.data.next)
+      }
+      if(response.data.previous){
+        setprev(response.data.previous)
+      }
       setanimeTittle(response.data.animeTitle)
       setepisodeNumber(response.data.episodeNumber)
       seturlEpisode(response.data.downloadedEpisodes[0].url)
@@ -52,8 +60,10 @@ export const Reproductor: React.FC = () => {
     })
   }
 
+  console.log(next)
+
   return (
-    <AppLayout>
+    <ReproductorLayout>
       <div className='reproductor_video_Container'>
         <video
           src={`https://animedownloader.jmarango.co${urlEpisode}`}
@@ -77,6 +87,6 @@ export const Reproductor: React.FC = () => {
             </div>
           </div>
       </div>
-    </AppLayout>
+    </ReproductorLayout>
   )
 }

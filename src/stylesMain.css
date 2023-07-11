@@ -2,3 +2,9 @@
     font-family: 'PT Sans', sans-serif;
     -webkit-font-smoothing:antialiased;
 }
+
+.imgwh{
+    width: 260px;
+    height: 370px;
+    object-fit: contain;
+}

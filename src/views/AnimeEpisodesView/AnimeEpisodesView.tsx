@@ -134,7 +134,7 @@ export const AnimeEpisodesView: React.FC = () => {
                                 {episodes.map((episode) => (
                                     <a key={episode.id} className='card_Episodes' onClick={() => { navigate(`/episodio/reproducir/${episode.id}?anime=18&episodio=23`) }} >
                                         <div className='image_Episode_Container'>
-                                            <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} />
+                                            <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} className='imgwh'/>
                                             <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
                                         </div>
                                         <div>

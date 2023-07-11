@@ -25,3 +25,12 @@
 .anime_info_tittle{
     font-size: 20px;
 }
+
+@media(max-width:650px){
+    .reproductor_anime_info{
+        flex-direction: column;
+    }
+    .reproductor_anime_info >div{
+        padding: 0;
+    }
+}
