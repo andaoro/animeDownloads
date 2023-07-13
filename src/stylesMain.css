@@ -3,7 +3,22 @@
     -webkit-font-smoothing:antialiased;
 }
 
+*::-webkit-scrollbar{
+    width: 8px;
+    background-color: black;
+}
+
+*::-webkit-scrollbar-thumb{
+    background-color: #ff7f00;
+}
+
 .imgwh{
+    width: 260px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.imgwhhome{
     width: 260px;
     height: 370px;
     object-fit: contain;

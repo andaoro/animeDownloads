@@ -15,11 +15,38 @@ header{
     text-transform: capitalize;
 }
 
+.containerOptions{
+    position: relative;
+}
+
+.Options_Menu{
+    position: absolute;
+    top: 50px;
+    width: 200px;
+    height: 400px;
+    background-color: #3e729a;
+    right: 0;
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CloseSession{
+    cursor: pointer;
+}
+
+.CloseSession:hover{
+    text-decoration: underline;
+    color: #ff7f00;
+}
+
+.userName{
+    cursor: pointer;
+}
 
 @media(max-width:600px){
-    .userName{
-        display: none;
-    }
 
     header{
         padding: 1rem 3rem !important

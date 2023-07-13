@@ -11,7 +11,7 @@
     display: flex;
 }
 .reproductor_anime_info >div{
-    padding: 2rem 10rem;
+    padding: 2rem 5rem;
     width: 100%;
     display: flex;
     align-items: center;
@@ -22,15 +22,94 @@
     flex-direction: column;
 }
 
+.anime_info:nth-child(1){
+    width: 50%;
+}
+
+.anime_info:nth-child(2){
+    align-items: center;
+}
+
 .anime_info_tittle{
     font-size: 20px;
+    cursor: pointer;
 }
+
+.anime_info_tittle:hover{
+    color: #ff7f00;
+    text-decoration: underline;
+}
+
+.episodes_info{
+    margin-bottom: 2rem;
+}
+
+.episodes_Info_Reproductor{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.episodes_Info_Reproductor_img{
+    width: 240px;
+    height: 135px;
+    cursor: pointer;
+}
+
+.episodes_Info_Reproductor_img:hover{
+    opacity: .7;
+}
+
+.titleFull{
+    display: none !important;
+}
+
+.titleFullWidth{
+    width: 100% !important;
+    align-items: flex-start !important;
+}
+
+.episodes_Info_Reproductor:hover .PlayEpisode{
+    display: block;
+    cursor: pointer;
+}
+
+.episodes_Info_Reproductor:hover{
+    background-color: #141519;
+    cursor: pointer;
+}
+
 
 @media(max-width:650px){
     .reproductor_anime_info{
         flex-direction: column;
     }
     .reproductor_anime_info >div{
-        padding: 0;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+    .anime_info:nth-child(1){
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .anime_info_tittle{
+        font-size: 16px;
+    }
+
+    .episodes_Info_Reproductor{
+        flex-direction: row;
+    }
+
+    .episodes_Info_Reproductor_img{
+        width: 65%;
+        height: 120px;
+        margin-right: 1rem;
+    }
+
+    .anime_info:nth-child(2){
+        align-items: flex-start;
     }
 }
