@@ -80,6 +80,10 @@
     cursor: pointer;
 }
 
+.contenedorCapitulos{
+    display: flex;
+    flex-direction: row-reverse;
+}
 
 @media(max-width:650px){
     .reproductor_anime_info{
@@ -111,5 +115,9 @@
 
     .anime_info:nth-child(2){
         align-items: flex-start;
+    }
+
+    .contenedorCapitulos{
+        flex-direction: column;
     }
 }

@@ -76,7 +76,6 @@ export const Reproductor: React.FC = () => {
   }
 
   const cambiarCapitulo = (idcap: number) => {
-    /* navigate(`episodio/reproducir/${idcap}`) */
     consultarDetallesCapitulo(idcap)
   }
 
@@ -100,7 +99,7 @@ export const Reproductor: React.FC = () => {
           </div>
         </div>
         <div className={`anime_info ${next == null && prev == null && 'titleFull'}`}>
-          <div>
+          <div className='contenedorCapitulos'>
             {
               next !== null && (
                 <div className='episodes_info' >
