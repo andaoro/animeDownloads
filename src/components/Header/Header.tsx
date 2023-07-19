@@ -29,10 +29,11 @@ const Header: React.FC = () => {
                 {
                     viewOptionsUser && (
                         <div className='Options_Menu'>
-                            <p className='CloseSession' onClick={() => {
+                            <p className='optionMenu' onClick={() => {
                                 localStorage.removeItem('UserInfo')
                                 window.location.reload()
                             }}>Close Sesion</p>
+                            <p onClick={()=>{navigate('/playlist')}} className='optionMenu'>Ir a Playlist</p>
                         </div>
                     )
                 }

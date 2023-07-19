@@ -33,11 +33,11 @@ header{
     align-items: center;
 }
 
-.CloseSession{
+.optionMenu{
     cursor: pointer;
 }
 
-.CloseSession:hover{
+.optionMenu:hover{
     text-decoration: underline;
     color: #ff7f00;
 }
