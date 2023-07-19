@@ -3,6 +3,7 @@ import './styles.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { IDataUserProps } from '../../Context/UserContext'
+import { URLAPI } from '../../utils/Helpers'
 
 const Login = () => {
     const [usernameFocused, setusernameFocused] = useState(false)
@@ -49,19 +50,18 @@ const Login = () => {
 
     const login = () => {
         if (username.toString().trim() !== "" && password.toString().trim() !== "") {
-            axios.post("https://animedownloader.jmarango.co/api/auth/login", {
+            axios.post(`${URLAPI}/auth/login`, {
                 username,
                 password
             }).then((response) => {
                 if (response.status == 200) {
-                    console.log(response.data)
                     localStorage.setItem("UserInfo", JSON.stringify(response.data))
                     navigate("/home")
                 } else {
                     setErrorMessage("Ha ocurrido un error inesperado")
                 }
             }).catch((err) => {
-                console.log(err)
+                console.error(err)
                 if (err.response.status == 401) {
                     setErrorMessage("Usuario o contraseña incorrectos")
                 } else {

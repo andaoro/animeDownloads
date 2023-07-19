@@ -5,6 +5,7 @@ import UserContext from "../../Context/UserContext"
 import { useNavigate } from "react-router-dom"
 import { Loading } from "../../components/Loading/Loading"
 import './stylesHome.css'
+import { URLAPI, URL_IMAGENES } from "../../utils/Helpers"
 
 
 export interface IAnimesDownloadedProps {
@@ -49,7 +50,7 @@ const HomeScreen: React.FC = () => {
 
 
   const getDownloadedAnimes = () => {
-    axios.get(`https://animedownloader.jmarango.co/api/downloaded/?page=${pagenumber}`, {
+    axios.get(`${URLAPI}/downloaded/?page=${pagenumber}`, {
       headers: {
         "Authorization": `Bearer ${user.accessToken}`
       }
@@ -69,17 +70,15 @@ const HomeScreen: React.FC = () => {
     })
   }
 
-  console.log(morePages)
 
   const getDownloadedAnimeScroll = () => {
     if (morePages) {
-      axios.get(`https://animedownloader.jmarango.co/api/downloaded/?page=${pagenumber}`, {
+      axios.get(`${URLAPI}/downloaded/?page=${pagenumber}`, {
         headers: {
           "Authorization": `Bearer ${user.accessToken}`
         }
       }).then((res) => {
         if (res.status === 200) {
-          console.log(res.data)
           if (pagenumber !== res.data.totalPages - 1) {
             setpagenumber(pagenumber + 1)
           } else {
@@ -103,7 +102,7 @@ const HomeScreen: React.FC = () => {
             {
               animesDownloadedArray.map((anime, index) => (
                 <div key={index} className="anime_Dowloaded_Card" onClick={() => { navigate(`/anime/${anime.id}/episodes`) }}>
-                  <img src={`https://animedownloader.jmarango.co${anime.imageUrl}`} className="imgwhhome" />
+                  <img src={`${URL_IMAGENES}${anime.imageUrl}`} className="imgwhhome" />
                   <div>
                     <p>{anime.title}</p>
                   </div>

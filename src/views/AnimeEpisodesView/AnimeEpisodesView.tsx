@@ -7,6 +7,7 @@ import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import { Loading } from '../../components/Loading/Loading';
 import { AnimePresentation } from '../../components/AnimePresentationEpisodes/AnimePresentation';
+import { URLAPI, URL_IMAGENES } from '../../utils/Helpers';
 
 interface IDownloadOptions {
     dateDownloaded: string
@@ -47,19 +48,14 @@ export const AnimeEpisodesView: React.FC = () => {
     const { id } = useParams()
     const navigate = useNavigate()
 
-
     useEffect(() => {
         if (user && user.accessToken !== "") {
             getAnimeEpisodes()
         }
     }, [user])
 
-    /* useEffect(()=>{
-        window.location.reload()
-    },[]) */
-
     useEffect(() => {
-        if (user && user.accessToken !== "" && pagenumber !== 0 ) {
+        if (user && user.accessToken !== "" && pagenumber !== 0) {
             window.addEventListener('scroll', handleScroll); // Agrega un event listener para detectar el scroll
             return () => {
                 window.removeEventListener('scroll', handleScroll); // Elimina el event listener al desmontar el componente
@@ -77,7 +73,7 @@ export const AnimeEpisodesView: React.FC = () => {
     };
 
     const getAnimeEpisodes = () => {
-        axios.get(`https://animedownloader.jmarango.co/api/downloaded/${id}?page=${pagenumber}`, {
+        axios.get(`${URLAPI}/downloaded/${id}?page=${pagenumber}`, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`
             }
@@ -92,15 +88,14 @@ export const AnimeEpisodesView: React.FC = () => {
             setepisodes(response.data.elements)
 
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
         })
 
     }
 
-
     const getAnimeEpisodesScroll = () => {
         if (morePages) {
-            axios.get(`https://animedownloader.jmarango.co/api/downloaded/${id}?page=${pagenumber}`, {
+            axios.get(`${URLAPI}/downloaded/${id}?page=${pagenumber}`, {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
                 }
@@ -115,12 +110,27 @@ export const AnimeEpisodesView: React.FC = () => {
                 setepisodes(prevData => [...prevData, ...response.data.elements])
 
             }).catch((err) => {
-                console.log(err)
+                console.error(err)
             })
         }
 
     }
 
+    const agregarCapituloPlaylist = (id: number) => {
+        axios.patch(`${URLAPI}/playlist`,{
+            id
+        },{
+            headers:{
+                Authorization: `Bearer ${user.accessToken}`
+            }
+        }).then((response)=>{
+            if(response.data.success){
+                alert(response.data.msg)
+            }
+        }).catch((err)=>{
+            console.error(err)
+        })
+    }
 
     return (
         <AppLayout>
@@ -131,24 +141,35 @@ export const AnimeEpisodesView: React.FC = () => {
                             <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
                             <div className='animes_dowloaded_container_grid'>
                                 {episodes.map((episode) => (
-                                    <a key={episode.id} className='card_Episodes' onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
-                                        <div className='image_Episode_Container'>
-                                            <img loading='lazy' src={`https://animedownloader.jmarango.co${episode.imageUrl}`} className='imgwh'/>
-                                            <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
-                                        </div>
-                                        <div>
-                                            <p className='episode_anime_title'>{animeData.object.title}</p>
-                                            <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
-                                            <div className='providers_Episodes'>
-                                                {
+                                    <div className='card_Episodes' key={episode.id}>
+                                        <a  onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
+                                            <div className='image_Episode_Container'>
+                                                <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
+                                                <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
+                                            </div>
+                                            <div>
+                                                <p className='episode_anime_title'>{animeData.object.title}</p>
+                                                <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
+
+                                            </div>
+
+                                        </a>
+
+                                        <div className='providers_Episodes'>
+                                            {
+                                                user.userType !== "admin" ? (
                                                     episode.downloadedEpisodes.map((downloadOptions) => (
                                                         <span key={downloadOptions.id} className='episode_Provider'> {downloadOptions.downloadOptionName} </span>
                                                     ))
-                                                }
-                                            </div>
-                                        </div>
+                                                ) : (
+                                                    <span key={episode.id} className='episode_Provider agregarPlaylist' onClick={() => { agregarCapituloPlaylist(episode.id) }}>Agregar a playlist </span>
+                                                )
 
-                                    </a>
+                                            }
+
+                                        </div>
+                                    </div>
+
                                 ))}
                             </div>
                         </>
@@ -156,7 +177,7 @@ export const AnimeEpisodesView: React.FC = () => {
                         <Loading />
                     )
             }
-
+           
         </AppLayout>
     )
 }

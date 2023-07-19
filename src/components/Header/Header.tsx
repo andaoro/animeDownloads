@@ -3,6 +3,8 @@ import logo from '../../assets/img/enderythead.png'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { URLAPI } from '../../utils/Helpers'
 
 const Header: React.FC = () => {
     const navigate = useNavigate()
@@ -20,6 +22,20 @@ const Header: React.FC = () => {
         }
     }, [])
 
+    const limpiarPlaylist = () =>{
+        axios.put(`${URLAPI}/playlist/clear`,{},{
+            headers:{
+                Authorization:`Bearer ${user.accessToken}`
+            }
+        }).then((response)=>{
+            if(response.data.success){
+                alert('Playlist Limpiada con exito')
+            }
+        }).catch((err)=>{
+            console.error(err)
+        })
+    }
+
     return (
         <header>
             <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} onClick={() => { navigate('/home') }} />
@@ -33,7 +49,15 @@ const Header: React.FC = () => {
                                 localStorage.removeItem('UserInfo')
                                 window.location.reload()
                             }}>Close Sesion</p>
-                            <p onClick={()=>{navigate('/playlist')}} className='optionMenu'>Ir a Playlist</p>
+                            {
+                                user.userType === "admin" && (
+                                    <>
+                                        <p onClick={() => { navigate('/playlist') }} className='optionMenu'>Ir a Playlist</p>
+                                        <p onClick={limpiarPlaylist} className='optionMenu'>Limpiar Playlist</p>
+                                    </>
+                                )
+                            }
+
                         </div>
                     )
                 }

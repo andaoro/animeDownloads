@@ -76,12 +76,26 @@
     max-width: 200px;
 }
 
+
+.agregarPlaylist{
+    background-color: #0a77ba;
+    color: white;
+    border-radius: 2px;
+    padding: 0.6rem;
+    display: block;
+}
+
+.agregarPlaylist:hover{
+    background-color: #4c93be;
+}
+
 @media(max-width:650px){
     .card_Episodes{
         display: flex;
         width: 100vw;
         padding: 0 2rem;
         box-sizing: border-box;
+        flex-direction: column;
     }
 
     .image_Episode_Container >img{

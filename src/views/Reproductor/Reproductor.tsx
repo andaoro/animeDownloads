@@ -6,8 +6,9 @@ import UserContext from '../../Context/UserContext'
 import axios from 'axios'
 import { ReproductorLayout } from '../../components/ReproductorLayout/ReproductosLayout'
 import { AiOutlinePlayCircle } from "react-icons/ai";
+import { URLAPI } from '../../utils/Helpers'
 
-interface IDataNextPrev {
+export interface IDataNextPrev {
   animeId: number,
   animeTitle: string,
   episodeNumber: number
@@ -54,7 +55,7 @@ export const Reproductor: React.FC = () => {
   }, [user])
 
   const consultarDetallesCapitulo = (id: string | undefined | number) => {
-    axios.get(`https://animedownloader.jmarango.co/api/downloaded/1/${id}`,
+    axios.get(`${URLAPI}/downloaded/1/${id}`,
       {
         headers: {
           Authorization: `Bearer ${user.accessToken}`
@@ -71,76 +72,26 @@ export const Reproductor: React.FC = () => {
         setepisodeNumber(response.data.episodeNumber)
         seturlEpisode(response.data.downloadedEpisodes[0].url)
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   }
 
-  const cambiarCapitulo = (idcap: number) => {
+  const cambiarCapitulo = (idcap?: number) => {
+    setnext(null)
+    setprev(null)
     consultarDetallesCapitulo(idcap)
   }
 
-
   return (
-    <ReproductorLayout>
-      <div className='reproductor_video_Container'>
-        <video
-          src={`https://animedownloader.jmarango.co${urlEpisode}`}
-          autoPlay
-          controls
-          ref={video}
-        />
-      </div>
-
-      <div className='reproductor_anime_info'>
-        <div className={`anime_info ${next == null && prev == null && 'titleFullWidth'}`}>
-          <div>
-            <p className='anime_info_tittle' onClick={() => { navigate(`/anime/${animeId}/episodes`) }}>{animeTittle}</p>
-            <p>E{episodeNumber}-Episodio {episodeNumber}</p>
-          </div>
-        </div>
-        <div className={`anime_info ${next == null && prev == null && 'titleFull'}`}>
-          <div className='contenedorCapitulos'>
-            {
-              next !== null && (
-                <div className='episodes_info' >
-                  <span style={{ fontWeight: "bold" }}>Siguiente Episodio</span>
-                  <div className='episodes_Info_Reproductor'>
-                    <div className='image_Episode_Container' onClick={() => {
-                      navigate(`/episodio/reproducir/${next.id}`);
-                      cambiarCapitulo(next.id)
-                    }}>
-                      <img src={`https://animedownloader.jmarango.co${next.imageUrl}`} className='episodes_Info_Reproductor_img' />
-                      <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
-                    </div>
-                    <div>
-                      <p>{next.episodeTitle}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            {
-              prev !== null && (
-                <div className='episodes_info' onClick={() => {
-                  navigate(`/episodio/reproducir/${prev.id}`);
-                  cambiarCapitulo(prev.id)
-                }}>
-                  <span style={{ fontWeight: "bold" }}>Episodio Anterior</span>
-                  <div className='episodes_Info_Reproductor'>
-                    <div className='image_Episode_Container'>
-                      <img src={`https://animedownloader.jmarango.co${prev.imageUrl}`} className='episodes_Info_Reproductor_img' />
-                      <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
-                    </div>
-                    <div>
-                      <p>{prev.episodeTitle}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-          </div>
-        </div>
-      </div>
-    </ReproductorLayout>
+      <ReproductorLayout
+        urlEpisode={urlEpisode}
+        next={next}
+        prev={prev}
+        animeId={animeId}
+        animeTittle={animeTittle}
+        episodeNumber={episodeNumber}
+        cambiarCapitulo={cambiarCapitulo}
+        reproductorType={1}
+      />
   )
 }

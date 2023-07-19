@@ -4,7 +4,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: absolute;
+    position: fixed;
     width: 100vw;
     max-width: 100%;
     top: 0;
@@ -13,6 +13,7 @@ header{
     color: #FFFFFF;
     height: auto;
     text-transform: capitalize;
+    z-index: 3;
 }
 
 .containerOptions{
