@@ -18,7 +18,7 @@ interface ICapActualPlaylist {
     episodeNumber: number
 }
 
-export const PlaylistLobby: React.FC<React.ReactNode> = () => {
+export const PlaylistLobby: React.FC = () => {
 
     const { user } = useContext(UserContext)
     const [playlistData, setPlatlistData] = useState(null)
