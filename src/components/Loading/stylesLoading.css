@@ -27,3 +27,13 @@
     gap: 20px;
     z-index: 2;
 }
+
+.loadingGif > span{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.loadingGif > img{
+    width: 15rem;
+    padding: 0 2.5rem 0 0;
+}
