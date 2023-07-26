@@ -96,7 +96,6 @@ const HomeScreen: React.FC = () => {
 
   return (
     <AppLayout>
-      <p className="text-sky-800 text-2xl">A</p>
       {
         !isLoading ? (
           <div className="animes_dowloaded_container_grid">

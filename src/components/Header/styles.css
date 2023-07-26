@@ -16,9 +16,6 @@ header{
     z-index: 3;
 }
 
-.containerOptions{
-    position: relative;
-}
 
 .Options_Menu{
     position: absolute;

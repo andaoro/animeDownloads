@@ -1,6 +1,6 @@
 .Presentacion_container {
     width: 100vw;
-    height: 350px;
+    height: auto;
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -33,13 +33,13 @@
     position: absolute;
 }
 
-.Presentacion_imagen_container>img {
+/* .Presentacion_imagen_container>img {
     height: 100%;
     width: auto;
     object-fit: cover;
     padding: .8rem;
     box-sizing: border-box;
-}
+} */
 
 .presentacion_capview{
     z-index: 1;
