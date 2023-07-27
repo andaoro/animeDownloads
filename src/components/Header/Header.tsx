@@ -51,14 +51,15 @@ const Header: React.FC = () => {
         <header className=' bg-sky-700 z-50'>
             <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} onClick={() => { navigate('/home') }} />
 
-            <div className='md:relative'>
+            <div className='md:relative z-20'>
                 <div onClick={() => { setviewOptionsUser(!viewOptionsUser) }} className='flex items-center cursor-pointer'>
                     <span className='userName' >{user?.username}</span>
                     <span className='ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>
                 </div>
                 {
                     viewOptionsUser && (
-                        <div className='absolute w-screen h-screen left-0 top-16 md:top-12 md:left-auto md:right-0 md:w-96 md:h-auto'>
+
+                        <div className='absolute w-screen h-screen left-0 top-16 md:top-12 md:left-auto md:right-0 md:w-96 md:h-auto '>
                             <div className='w-full h-full bg-sky-800 relative'>
                                 <div>
                                     <div className='flex px-3 py-6'>
@@ -66,8 +67,8 @@ const Header: React.FC = () => {
                                             <img src={hertaLogo} alt='imagen perfil usuario' className='w-8' />
                                         </figure>
                                         <div>
-                                            <p className='capitalize'>{user.username}</p>
-                                            <p className='text-yellow-400'>{user.userType !== "admin" ? "Miembro" : "Usuario Administrador"}</p>
+                                            <p className='capitalize text-bold'>{user.username}</p>
+                                            <p className='text-yellow-300'>{user.userType !== "admin" ? "Miembro" : "Usuario Administrador"}</p>
                                         </div>
                                     </div>
 
@@ -80,11 +81,11 @@ const Header: React.FC = () => {
                                             </div>
 
                                             <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={() => { navigate('/playlist') }}>
-                                                <span className='mr-6'><MdPlaylistPlay size={32} /></span>
-                                                <span>Playlist</span>
+                                                <span className='mr-6'><MdPlaylistPlay size={28} /></span>
+                                                <span className=''>Playlist</span>
                                             </div>
                                             <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6'>
-                                                <span className='mr-6'><MdOutlinePlaylistRemove size={32} /></span>
+                                                <span className='mr-6'><MdOutlinePlaylistRemove size={28} /></span>
                                                 <span>Limpiar Playlist</span>
                                             </div>
                                         </SectionsMenuHeader>
@@ -95,11 +96,11 @@ const Header: React.FC = () => {
                                         <span className='px-3 text-xs text-sky-50/75'>Opciones</span>
                                     </div>
                                     <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdFavorite size={32} /></span>
+                                        <span className='mr-6'><MdFavorite size={28} /></span>
                                         <span>Favoritos</span>
                                     </div>
                                     <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdList size={32} /></span>
+                                        <span className='mr-6'><MdList size={28} /></span>
                                         <span>Listas</span>
                                     </div>
                                 </SectionsMenuHeader>
@@ -109,28 +110,20 @@ const Header: React.FC = () => {
                                     window.location.reload()
                                 }}>
                                     <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdOutlineExitToApp size={32} /></span>
+                                        <span className='mr-6'><MdOutlineExitToApp size={28} /></span>
                                         <span >Cerrar sesión</span>
                                     </div>
                                 </div>
                             </div>
-                            {/* <p className='hover:underline cursor-pointer ' onClick={() => {
-                                localStorage.removeItem('UserInfo')
-                                window.location.reload()
-                            }}>Close Sesion</p>
-                            {
-                                user.userType === "admin" && (
-                                    <>
-                                        <p onClick={() => { navigate('/playlist') }} className='optionMenu'>Ir a Playlist</p>
-                                        <p onClick={limpiarPlaylist} className='optionMenu'>Limpiar Playlist</p>
-                                    </>
-                                )
-                            } */}
-
                         </div>
                     )
                 }
             </div>
+            {
+                viewOptionsUser&& (
+                    <div className='absolute h-screen w-screen top-0 left-0 bg-gray-800/70 z-10' onClick={()=>{setviewOptionsUser(false)}}></div>
+                )
+            }
         </header>
     )
 }

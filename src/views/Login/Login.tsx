@@ -76,7 +76,7 @@ const Login = () => {
     return (
         <div className='ContainerBody'>
             <div className='ContainerForm'>
-                <h1 style={{ textAlign: "center" }}>Acceder</h1>
+                <h1 className=' text-center text-4xl mb-6'>Acceder</h1>
                 <div className='FormBody'>
                     <div className={`ContainerInput ${usernameFocused && "ContainerInput--focus"}`}>
                         <label>

@@ -12,7 +12,7 @@ type downloadedEpisodesType = {
 }
 
 interface ICapActualPlaylist {
-    downloadedEpisodes: downloadedEpisodesType[]
+    url:string
     animeId: string
     animeTitle: string
     episodeNumber: number
@@ -42,6 +42,7 @@ export const PlaylistLobby: React.FC = () => {
                     Authorization: `Bearer ${user.accessToken}`
                 }
             }).then((playlist) => {
+                console.log(playlist.data)
                 setPlatlistData(playlist.data)
                 setloadingData(false)
                 if (playlist.data.episodes.length !== 0) {
@@ -88,7 +89,7 @@ export const PlaylistLobby: React.FC = () => {
         !loadingData ? (
             capActualPlaylist !== null ? (
                 <ReproductorLayout
-                    urlEpisode={capActualPlaylist.downloadedEpisodes[0].url}
+                    urlEpisode={capActualPlaylist.url}
                     next={nextEpisodePlaylist}
                     prev={null}
                     animeId={capActualPlaylist.animeId}

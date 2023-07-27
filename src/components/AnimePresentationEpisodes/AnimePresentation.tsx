@@ -49,7 +49,7 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
         <div className='Presentacion_container'>
             <div className='backgroundPresentacion'></div>
             <div className=' z-10 w-auto flex flex-col'>
-                <img src={`${URL_IMAGENES}${data.imageUrl}`} className='w-48 text-center object-cover pb-4 rounded'/>
+                <img src={`${URL_IMAGENES}${data.imageUrl}`} className='w-48 text-center object-cover mb-4 rounded'/>
                 <p style={{ fontSize: "12px" }}>{data.title}</p>
             </div>
             <div className='presentacion_capview'>

@@ -61,6 +61,7 @@ export const Reproductor: React.FC = () => {
           Authorization: `Bearer ${user.accessToken}`
         }
       }).then((response) => {
+        console.log(response.data)
         if (response.data.next) {
           setnext(response.data.next)
         }
@@ -70,7 +71,7 @@ export const Reproductor: React.FC = () => {
         setanimeId(response.data.animeId)
         setanimeTittle(response.data.animeTitle)
         setepisodeNumber(response.data.episodeNumber)
-        seturlEpisode(response.data.downloadedEpisodes[0].url)
+        seturlEpisode(response.data.url)
       }).catch((err) => {
         console.error(err)
       })

@@ -117,17 +117,17 @@ export const AnimeEpisodesView: React.FC = () => {
     }
 
     const agregarCapituloPlaylist = (id: number) => {
-        axios.patch(`${URLAPI}/playlist`,{
+        axios.patch(`${URLAPI}/playlist`, {
             id
-        },{
-            headers:{
+        }, {
+            headers: {
                 Authorization: `Bearer ${user.accessToken}`
             }
-        }).then((response)=>{
-            if(response.data.success){
+        }).then((response) => {
+            if (response.data.success) {
                 alert(response.data.msg)
             }
-        }).catch((err)=>{
+        }).catch((err) => {
             console.error(err)
         })
     }
@@ -142,7 +142,7 @@ export const AnimeEpisodesView: React.FC = () => {
                             <div className='animes_dowloaded_container_grid'>
                                 {episodes.map((episode) => (
                                     <div className='card_Episodes' key={episode.id}>
-                                        <a  onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
+                                        <a onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
                                             <div className='image_Episode_Container'>
                                                 <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
                                                 <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
@@ -157,14 +157,9 @@ export const AnimeEpisodesView: React.FC = () => {
 
                                         <div className='providers_Episodes'>
                                             {
-                                                user.userType !== "admin" ? (
-                                                    episode.downloadedEpisodes.map((downloadOptions) => (
-                                                        <span key={downloadOptions.id} className='episode_Provider'> {downloadOptions.downloadOptionName} </span>
-                                                    ))
-                                                ) : (
+                                                user.userType == "admin" && (
                                                     <span key={episode.id} className='episode_Provider agregarPlaylist' onClick={() => { agregarCapituloPlaylist(episode.id) }}>Agregar a playlist </span>
                                                 )
-
                                             }
 
                                         </div>
@@ -177,7 +172,7 @@ export const AnimeEpisodesView: React.FC = () => {
                         <Loading />
                     )
             }
-           
+
         </AppLayout>
     )
 }
