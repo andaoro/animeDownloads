@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom"
 import { Loading } from "../../components/Loading/Loading"
 import './stylesHome.css'
 import { URLAPI, URL_IMAGENES } from "../../utils/Helpers"
+import { useAlerts } from "../../hooks/useAlerts"
+import { AgregarAlerta } from "../../utils/Helpers"
 
 
 export interface IAnimesDownloadedProps {
@@ -24,6 +26,7 @@ const HomeScreen: React.FC = () => {
   const navigate = useNavigate()
   const [pagenumber, setpagenumber] = useState(0)
   const [morePages, setmorePages] = useState(true)
+  const {alertas, createNewAlert} = useAlerts()
 
   useEffect(() => {
     if (user && user.accessToken.toString().trim() != "") {
@@ -65,7 +68,7 @@ const HomeScreen: React.FC = () => {
         setisLoading(false)
       }
     }).catch((err) => {
-      alert("HA OCURRIDO UN ERROR")
+      AgregarAlerta(createNewAlert,"HA OCURRIDO UN ERROR","danger")
       console.error(err)
     })
   }
@@ -116,6 +119,7 @@ const HomeScreen: React.FC = () => {
             <Loading />
           )
       }
+      {alertas}
     </AppLayout>
   )
 }

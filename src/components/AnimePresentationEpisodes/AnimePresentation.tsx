@@ -8,6 +8,8 @@ import { URLAPI, URL_IMAGENES } from '../../utils/Helpers';
 import UserContext from '../../Context/UserContext';
 import { Loading } from '../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
+import { useAlerts } from '../../hooks/useAlerts';
+import { AgregarAlerta } from '../../utils/Helpers';
 
 interface IAnimeData {
     data: IObjectData
@@ -17,6 +19,7 @@ interface IAnimeData {
 export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => {
 
     const { user } = useContext(UserContext)
+    const {alertas,createNewAlert} = useAlerts()
     const navigate = useNavigate()
     const [isLoadingAddPlaylist, setisLoadingAddPlaylist] = useState(false)
 
@@ -30,19 +33,13 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
             }
         }).then((response) => {
             if (response.data.success) {
-                alert(response.data.msg)
+                AgregarAlerta(createNewAlert,response.data.msg,'success')
                 setisLoadingAddPlaylist(false)
             }
         }).catch((err) => {
             console.error(err)
         })
     }
-
-    console.log()
-
-
-
-
 
 
     return (
@@ -71,6 +68,7 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
             {
                 isLoadingAddPlaylist && (<Loading />)
             }
+            {alertas}
         </div>
     )
 }

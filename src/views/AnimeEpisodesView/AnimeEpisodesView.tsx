@@ -8,6 +8,8 @@ import UserContext from '../../Context/UserContext';
 import { Loading } from '../../components/Loading/Loading';
 import { AnimePresentation } from '../../components/AnimePresentationEpisodes/AnimePresentation';
 import { URLAPI, URL_IMAGENES } from '../../utils/Helpers';
+import { useAlerts } from '../../hooks/useAlerts';
+import { AgregarAlerta } from '../../utils/Helpers';
 
 interface IDownloadOptions {
     dateDownloaded: string
@@ -44,6 +46,7 @@ export const AnimeEpisodesView: React.FC = () => {
     const [isLoadingDataEpisodes, setisLoadingDataEpisodes] = useState(true)
     const [pagenumber, setpagenumber] = useState(0)
     const [morePages, setmorePages] = useState(true)
+    const {alertas, createNewAlert} = useAlerts()
     const { user } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
@@ -125,7 +128,7 @@ export const AnimeEpisodesView: React.FC = () => {
             }
         }).then((response) => {
             if (response.data.success) {
-                alert(response.data.msg)
+                AgregarAlerta(createNewAlert,response.data.msg,"success")
             }
         }).catch((err) => {
             console.error(err)
@@ -172,7 +175,7 @@ export const AnimeEpisodesView: React.FC = () => {
                         <Loading />
                     )
             }
-
+            {alertas}
         </AppLayout>
     )
 }

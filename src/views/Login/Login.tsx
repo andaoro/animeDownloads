@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { IDataUserProps } from '../../Context/UserContext'
 import { URLAPI } from '../../utils/Helpers'
+import { useAlerts } from '../../hooks/useAlerts'
+import { AgregarAlerta } from '../../utils/Helpers'
 
 const Login = () => {
     const [usernameFocused, setusernameFocused] = useState(false)
@@ -12,6 +14,7 @@ const Login = () => {
     const [password, setpassword] = useState('')
     const [viewPassword, setviewPassword] = useState(false)
     const [errosMessage, setErrorMessage] = useState('')
+    const {alertas, createNewAlert} = useAlerts()
     const navigate = useNavigate()
 
     let userData: string | null = localStorage.getItem('UserInfo')
@@ -58,13 +61,14 @@ const Login = () => {
                     localStorage.setItem("UserInfo", JSON.stringify(response.data))
                     navigate("/home")
                 } else {
-                    setErrorMessage("Ha ocurrido un error inesperado")
+                    AgregarAlerta(createNewAlert,"Ha ocurrido un error inesperado","danger")
                 }
             }).catch((err) => {
                 console.error(err)
                 if (err.response.status == 401) {
-                    setErrorMessage("Usuario o contraseña incorrectos")
+                    AgregarAlerta(createNewAlert,"Usuario o contraseña incorrectos",'warning')
                 } else {
+                    AgregarAlerta(createNewAlert,"Error",'danger')
 
                 }
             })
@@ -127,6 +131,7 @@ const Login = () => {
                 </div>
                 <button className='btnAcceder' onClick={login}>Acceder</button>
             </div>
+            {alertas}
         </div>
     )
 }
