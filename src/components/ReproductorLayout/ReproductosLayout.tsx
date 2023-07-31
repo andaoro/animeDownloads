@@ -23,7 +23,7 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
 
   const video = useRef<HTMLVideoElement>(null)
   const navigate = useNavigate()
-  const baseURL = import.meta.env.VITE_BASE_URL_MEDIA || '/'
+  const baseURL = import.meta.env.VITE_BASE_URL_MEDIA || ''
 
   return (
     <div className='AppBodyR'>
