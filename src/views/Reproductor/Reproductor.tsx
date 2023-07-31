@@ -58,7 +58,6 @@ export const Reproductor: React.FC = () => {
           Authorization: `Bearer ${user.accessToken}`
         }
       }).then((response) => {
-        console.log(response.data)
         if (response.data.next) {
           setnext(response.data.next)
         }

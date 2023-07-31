@@ -23,6 +23,7 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
 
   const video = useRef<HTMLVideoElement>(null)
   const navigate = useNavigate()
+  const baseURL = import.meta.env.VITE_BASE_URL_MEDIA || '/'
 
   return (
     <div className='AppBodyR'>
@@ -30,7 +31,7 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
       <div className='ChildrenContainerR'>
         <div className='reproductor_video_Container'>
           <video
-            src={`${URL_IMAGENES}${urlEpisode}`}
+            src={`${baseURL}${urlEpisode}`}
             autoPlay
             controls
             ref={video}
