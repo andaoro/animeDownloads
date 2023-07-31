@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import './styles.css'
-import axios from 'axios'
+import axios from "../../utils/axios/axiosBase"
 import { useNavigate } from 'react-router-dom'
 import { IDataUserProps } from '../../Context/UserContext'
-import { URLAPI } from '../../utils/Helpers'
 import { useAlerts } from '../../hooks/useAlerts'
 import { AgregarAlerta } from '../../utils/Helpers'
 
@@ -53,7 +52,7 @@ const Login = () => {
 
     const login = () => {
         if (username.toString().trim() !== "" && password.toString().trim() !== "") {
-            axios.post(`${URLAPI}/auth/login`, {
+            axios.post(`/auth/login`, {
                 username,
                 password
             }).then((response) => {

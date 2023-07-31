@@ -3,8 +3,8 @@ import { IObjectData, IElementsData } from '../../views/AnimeEpisodesView/AnimeE
 import './stylesPresentacion.css'
 import { BsPlay } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
-import axios from 'axios';
-import { URLAPI, URL_IMAGENES } from '../../utils/Helpers';
+import axios from "../../utils/axios/axiosBase"
+import { URL_IMAGENES } from '../../utils/Helpers';
 import UserContext from '../../Context/UserContext';
 import { Loading } from '../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
 
     const agregarAnimePlaylist = () => {
         setisLoadingAddPlaylist(true)
-        axios.patch(`${URLAPI}/playlist/anime`, {
+        axios.patch(`/playlist/anime`, {
             id: data.id
         }, {
             headers: {

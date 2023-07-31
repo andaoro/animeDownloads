@@ -1,12 +1,9 @@
 import React, { useRef, useEffect, useContext, useState } from 'react'
-import { AppLayout } from '../../components/AppLayout/AppLayout'
 import { useNavigate, useParams } from 'react-router-dom'
 import './stylesReproductor.css'
 import UserContext from '../../Context/UserContext'
-import axios from 'axios'
+import axios from "../../utils/axios/axiosBase"
 import { ReproductorLayout } from '../../components/ReproductorLayout/ReproductosLayout'
-import { AiOutlinePlayCircle } from "react-icons/ai";
-import { URLAPI } from '../../utils/Helpers'
 
 export interface IDataNextPrev {
   animeId: number,
@@ -55,7 +52,7 @@ export const Reproductor: React.FC = () => {
   }, [user])
 
   const consultarDetallesCapitulo = (id: string | undefined | number) => {
-    axios.get(`${URLAPI}/downloaded/1/${id}`,
+    axios.get(`/downloaded/1/${id}`,
       {
         headers: {
           Authorization: `Bearer ${user.accessToken}`

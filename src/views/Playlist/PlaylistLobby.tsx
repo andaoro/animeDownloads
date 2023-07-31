@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ReproductorLayout } from '../../components/ReproductorLayout/ReproductosLayout'
-import axios from 'axios'
+import axios from "../../utils/axios/axiosBase"
 import UserContext from '../../Context/UserContext'
 import { AppLayout } from '../../components/AppLayout/AppLayout'
 import { IDataNextPrev } from '../Reproductor/Reproductor'
-import { URLAPI } from '../../utils/Helpers'
 
-type downloadedEpisodesType = {
-    url: string
-    id: number
-}
 
 interface ICapActualPlaylist {
     url:string
@@ -36,7 +31,7 @@ export const PlaylistLobby: React.FC = () => {
 
 
     const obtenerPlaylistActual = () => {
-        axios.get(`${URLAPI}/playlist`,
+        axios.get(`/playlist`,
             {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
@@ -54,7 +49,7 @@ export const PlaylistLobby: React.FC = () => {
     }
 
     const ObtenerDatosSiguienteCapituloPlaylist = () => {
-        axios.get(`${URLAPI}/playlist/next`,
+        axios.get(`/playlist/next`,
             {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
@@ -70,7 +65,7 @@ export const PlaylistLobby: React.FC = () => {
 
     const removerCapituloActualPlaylist = () => {
         if (user.accessToken !== "") {
-            axios.post(`${URLAPI}/playlist/next`,{},{
+            axios.post(`/playlist/next`,{},{
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
                 }

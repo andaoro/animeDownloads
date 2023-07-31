@@ -1,11 +1,11 @@
 import { AppLayout } from "../../components/AppLayout/AppLayout"
-import axios from "axios"
+import axios from "../../utils/axios/axiosBase"
 import React, { useContext, useEffect, useState } from "react"
 import UserContext from "../../Context/UserContext"
 import { useNavigate } from "react-router-dom"
 import { Loading } from "../../components/Loading/Loading"
 import './stylesHome.css'
-import { URLAPI, URL_IMAGENES } from "../../utils/Helpers"
+import {  URL_IMAGENES } from "../../utils/Helpers"
 import { useAlerts } from "../../hooks/useAlerts"
 import { AgregarAlerta } from "../../utils/Helpers"
 
@@ -53,7 +53,7 @@ const HomeScreen: React.FC = () => {
 
 
   const getDownloadedAnimes = () => {
-    axios.get(`${URLAPI}/downloaded/?page=${pagenumber}`, {
+    axios.get(`/downloaded/?page=${pagenumber}`, {
       headers: {
         "Authorization": `Bearer ${user.accessToken}`
       }
@@ -76,7 +76,7 @@ const HomeScreen: React.FC = () => {
 
   const getDownloadedAnimeScroll = () => {
     if (morePages) {
-      axios.get(`${URLAPI}/downloaded/?page=${pagenumber}`, {
+      axios.get(`/downloaded/?page=${pagenumber}`, {
         headers: {
           "Authorization": `Bearer ${user.accessToken}`
         }

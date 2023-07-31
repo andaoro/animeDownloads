@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import './stylesEpisodes.css'
-import axios from 'axios';
+import axios from "../../utils/axios/axiosBase"
 import UserContext from '../../Context/UserContext';
 import { Loading } from '../../components/Loading/Loading';
 import { AnimePresentation } from '../../components/AnimePresentationEpisodes/AnimePresentation';
-import { URLAPI, URL_IMAGENES } from '../../utils/Helpers';
+import { URL_IMAGENES } from '../../utils/Helpers';
 import { useAlerts } from '../../hooks/useAlerts';
 import { AgregarAlerta } from '../../utils/Helpers';
 
@@ -76,7 +76,7 @@ export const AnimeEpisodesView: React.FC = () => {
     };
 
     const getAnimeEpisodes = () => {
-        axios.get(`${URLAPI}/downloaded/${id}?page=${pagenumber}`, {
+        axios.get(`/downloaded/${id}?page=${pagenumber}`, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`
             }
@@ -98,7 +98,7 @@ export const AnimeEpisodesView: React.FC = () => {
 
     const getAnimeEpisodesScroll = () => {
         if (morePages) {
-            axios.get(`${URLAPI}/downloaded/${id}?page=${pagenumber}`, {
+            axios.get(`/downloaded/${id}?page=${pagenumber}`, {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
                 }
@@ -120,7 +120,7 @@ export const AnimeEpisodesView: React.FC = () => {
     }
 
     const agregarCapituloPlaylist = (id: number) => {
-        axios.patch(`${URLAPI}/playlist`, {
+        axios.patch(`/playlist`, {
             id
         }, {
             headers: {

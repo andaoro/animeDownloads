@@ -3,8 +3,7 @@ import logo from '../../assets/img/enderythead.png'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { URLAPI } from '../../utils/Helpers'
+import axios from '../../utils/axios/axiosBase'
 import hertaLogo from '../../assets/gifs/herta-loading.gif'
 import { MdPlaylistPlay, MdOutlinePlaylistRemove, MdFavorite, MdList, MdOutlineExitToApp, MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 
@@ -25,7 +24,7 @@ const Header: React.FC = () => {
     }, [])
 
     const limpiarPlaylist = () => {
-        axios.put(`${URLAPI}/playlist/clear`, {}, {
+        axios.put(`/playlist/clear`, {}, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`
             }
