@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from '../../utils/axios/axiosBase'
 import hertaLogo from '../../assets/gifs/herta-loading.gif'
 import { MdPlaylistPlay, MdOutlinePlaylistRemove, MdFavorite, MdList, MdOutlineExitToApp, MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import { BsFillCollectionPlayFill } from "react-icons/bs";
 
 const Header: React.FC = () => {
     const navigate = useNavigate()
@@ -76,16 +78,20 @@ const Header: React.FC = () => {
                                     user.userType == "admin" && (
                                         <SectionsMenuHeader>
                                             <div className='py-2'>
-                                                <span className='px-3 text-xs text-sky-50/75'>Playlist</span>
+                                                <span className='px-3 text-xs text-sky-50/75'>Administrador</span>
                                             </div>
 
                                             <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={() => { navigate('/playlist') }}>
                                                 <span className='mr-6'><MdPlaylistPlay size={28} /></span>
                                                 <span className=''>Playlist</span>
                                             </div>
+                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={()=>{navigate('/users')}}>
+                                                <span className='mr-6'><FaUsers size={28} /></span>
+                                                <span>Usuarios</span>
+                                            </div>
                                             <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6'>
-                                                <span className='mr-6'><MdOutlinePlaylistRemove size={28} /></span>
-                                                <span>Limpiar Playlist</span>
+                                                <span className='mr-6'><BsFillCollectionPlayFill size={28} /></span>
+                                                <span>Animes</span>
                                             </div>
                                         </SectionsMenuHeader>
                                     )

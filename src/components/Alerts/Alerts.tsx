@@ -2,10 +2,11 @@ import React, { ReactNode } from 'react'
 import warningImage from '../../assets/img/hu_tao.png'
 import dangerImage from '../../assets/img/qiqiwebp.webp'
 import successImage from '../../assets/img/paimon.png'
+import successImage2 from '../../assets/img/zhongli.webp'
 
 
 type AlertsProps = {
-    variante: "success" | "danger" | "warning";
+    variante: "success" | "danger" | "warning" | 'success2';
     children: ReactNode
 }
 
@@ -15,6 +16,10 @@ export const Alerts: React.FC<AlertsProps> = ({ variante = 'success', children }
         success: {
             style: "bg-lime-600 text-green-50",
             icon: <img src={successImage} alt='warning Icon' className='w-16 object-cover' />
+        },
+        success2: {
+            style: "bg-lime-600 text-green-50",
+            icon: <img src={successImage2} alt='warning Icon' className='w-16 object-cover' />
         },
         danger: {
             style: "bg-red-500 text-red-50",

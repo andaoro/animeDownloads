@@ -4,7 +4,7 @@ import { Alerts } from '../components/Alerts/Alerts';
 type ToastFunction = (options: ToastType) => void;
 type ToastType = {
     text: string,
-    variant: "success" | "danger" | "warning";
+    variant: "success" | "danger" | "warning" | 'success2';
 }
 
 type UseAlertReturnType = {

@@ -5,6 +5,7 @@ import HomeScreen from '../views/Home/HomeScreen'
 import { AnimeEpisodesView } from '../views/AnimeEpisodesView/AnimeEpisodesView'
 import { Reproductor } from '../views/Reproductor/Reproductor'
 import { PlaylistLobby } from '../views/Playlist/PlaylistLobby'
+import { Users } from '../views/Admin/Users/Users'
 
 export const MainRouters = () => {
   return (
@@ -16,6 +17,7 @@ export const MainRouters = () => {
             <Route path='/anime/:id/episodes' Component={AnimeEpisodesView}/>
             <Route path='/episodio/reproducir/:id' Component={Reproductor}/>
             <Route path='/playlist' Component={PlaylistLobby} />
+            <Route path='/users' Component={Users} />
         </Routes>
     </BrowserRouter>
   )
