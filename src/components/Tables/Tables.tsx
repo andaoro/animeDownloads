@@ -1,5 +1,5 @@
 import React from "react";
-import Switch from "../Switch/Switch ";
+import Switch from "../Inputs/Switch/Switch ";
 import { AiOutlineEdit } from 'react-icons/ai'
 
 type TUsers = {
