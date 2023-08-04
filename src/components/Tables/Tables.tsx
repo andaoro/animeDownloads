@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import Switch from "../Inputs/Switch/Switch ";
 import { AiOutlineEdit } from 'react-icons/ai'
 
@@ -14,13 +14,23 @@ interface TablaData {
     rows: TUsers[];
 }
 
+type TUserData = {
+    enabled:boolean
+    id:number
+    type:string
+    username:string
+}
+
 interface TablaResponsiveProps {
     data: TablaData;
     estado:(estado:boolean,id:number)=>any
+    setdataUserUpdate:React.Dispatch<React.SetStateAction<TUserData>>
 }
 
 
-const TablaResponsive: React.FC<TablaResponsiveProps> = ({ data,estado }) => {
+
+
+const TablaResponsive: React.FC<TablaResponsiveProps> = ({ data,estado,setdataUserUpdate }) => {
 
 
     return (
@@ -50,9 +60,9 @@ const TablaResponsive: React.FC<TablaResponsiveProps> = ({ data,estado }) => {
                                 </td>
                                 <td className="border px-4 py-2 flex justify-center items-center gap-x-4">
                                     <Switch check={user.enabled} onClick={()=>{estado(user.enabled,user.id)}}/>
-                                    <div>
+                                    <div className="flex flex-col items-center">
                                         <span className="text-gray-400">Editar</span>
-                                        <span className="cursor-pointer" onClick={() => { console.log(user) }}><AiOutlineEdit size={23} /></span>
+                                        <span className="cursor-pointer" onClick={() => { setdataUserUpdate(user) }}><AiOutlineEdit size={23} /></span>
                                     </div>
                                 </td>
                             </tr>
@@ -77,7 +87,7 @@ const TablaResponsive: React.FC<TablaResponsiveProps> = ({ data,estado }) => {
                                 <Switch check={rows.enabled} onClick={()=>{estado(rows.enabled,rows.id)}}/>
                                 <div>
                                     <span className="text-gray-400">Editar</span>
-                                    <span className="cursor-pointer" onClick={() => { console.log(rows.enabled,rows.id) }}><AiOutlineEdit size={23} /></span>
+                                    <span className="cursor-pointer" onClick={() => { setdataUserUpdate(rows) }}><AiOutlineEdit size={23} /></span>
                                 </div>
                             </span>
 
