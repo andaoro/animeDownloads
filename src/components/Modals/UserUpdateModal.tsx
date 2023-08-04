@@ -14,11 +14,11 @@ type PropsModalUser = {
     tipoUsuario: string
 }
 
-export const UserCreateModal: React.FC<PropsModalUser> = ({ setModalVisible, userName, setuserName, password, setPassword, onButtonClick, settipoUsuario, tipoUsuario }) => {
+export const UserUpdateModal: React.FC<PropsModalUser> = ({ setModalVisible, userName, setuserName, password, setPassword, onButtonClick, settipoUsuario, tipoUsuario }) => {
     return (
         <ModalsLayout modalVisible={setModalVisible}>
             <div className='flex flex-col px-14 py-12'>
-                <span className='flex items-center justify-center gap-x-6 py-2 '><AiOutlineUserAdd size={28} /><span className='text-xl'>Crear Usuario</span></span>
+                <span className='flex items-center justify-center gap-x-6 py-2 '><AiOutlineUserAdd size={28} /><span className='text-xl'>Actualizar Usuario</span></span>
                 <InputText texto={"Usuario"} valueText={userName} setValueText={setuserName} />
                 <InputText texto={"Contraseña"} valueText={password} setValueText={setPassword} typeInput='password' />
                 <span className='text-xs py-1 text-gray-300'>Tipo de usuario</span>
