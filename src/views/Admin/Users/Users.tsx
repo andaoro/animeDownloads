@@ -155,7 +155,6 @@ export const Users: React.FC = () => {
   }
 
   const ActualizarCliente = () => {
-    console.log(user.accessToken)
     axios.put(`/users`, {
       id: dataUserUpdate.id,
       username: userName,
@@ -166,7 +165,6 @@ export const Users: React.FC = () => {
         Authorization: `Bearer ${user.accessToken}`
       }
     }).then((response) => {
-      console.log(response)
       setUsuarios(prevUsuarios => {
         return prevUsuarios.map(usuario => {
           if (usuario.id === dataUserUpdate.id) {
@@ -180,6 +178,7 @@ export const Users: React.FC = () => {
         });
       });
       limpiarDatosModal()
+      setModalUpdateVisible(false)
     }).catch((err) => {
       console.error(err)
     })
