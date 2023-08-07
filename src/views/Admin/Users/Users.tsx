@@ -164,7 +164,7 @@ export const Users: React.FC = () => {
       headers: {
         Authorization: `Bearer ${user.accessToken}`
       }
-    }).then((response) => {
+    }).then(() => {
       setUsuarios(prevUsuarios => {
         return prevUsuarios.map(usuario => {
           if (usuario.id === dataUserUpdate.id) {
