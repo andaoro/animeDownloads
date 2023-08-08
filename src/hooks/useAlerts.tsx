@@ -1,10 +1,11 @@
 import React, { ReactNode, useState } from 'react'
 import { Alerts } from '../components/Alerts/Alerts';
+import { Tvariantes } from '../utils/Helpers';
 
 type ToastFunction = (options: ToastType) => void;
 type ToastType = {
     text: string,
-    variant: "success" | "danger" | "warning" | 'success2';
+    variant: Tvariantes
 }
 
 type UseAlertReturnType = {
