@@ -37,7 +37,6 @@ export const PlaylistLobby: React.FC = () => {
                     Authorization: `Bearer ${user.accessToken}`
                 }
             }).then((playlist) => {
-                console.log(playlist.data)
                 setPlatlistData(playlist.data)
                 setloadingData(false)
                 if (playlist.data.episodes.length !== 0) {

@@ -51,6 +51,22 @@ const HomeScreen: React.FC = () => {
     }
   };
 
+  const compareByEmissionDay = (a:any, b:any) =>{
+    // Si ambos objetos no tienen emissionDay, no cambian de posición
+    if (!a.emissionDay && !b.emissionDay) {
+      return 0;
+    }
+    // Si a tiene emissionDay y b no, a va antes
+    if (a.emissionDay && !b.emissionDay) {
+      return -1;
+    }
+    // Si b tiene emissionDay y a no, b va antes
+    if (!a.emissionDay && b.emissionDay) {
+      return 1;
+    }
+    // Ambos tienen emissionDay, los comparamos
+    return a.emissionDay.localeCompare(b.emissionDay);
+  }
 
   const getDownloadedAnimes = () => {
     axios.get(`/downloaded/?page=${pagenumber}`, {
@@ -72,7 +88,6 @@ const HomeScreen: React.FC = () => {
       console.error(err)
     })
   }
-
 
   const getDownloadedAnimeScroll = () => {
     if (morePages) {
@@ -96,6 +111,8 @@ const HomeScreen: React.FC = () => {
       })
     }
   }
+
+  animesDownloadedArray.sort(compareByEmissionDay)
 
   return (
     <AppLayout>

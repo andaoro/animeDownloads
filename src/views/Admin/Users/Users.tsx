@@ -137,7 +137,6 @@ export const Users: React.FC = () => {
             Authorization: `Bearer ${user.accessToken}`
           }
         }).then((response) => {
-          console.log(response)
           setUsuarios(users => [...users, response.data])
           setuserName('')
           setPassword('')
