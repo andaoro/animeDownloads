@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                                                 <span className='mr-6'><FaUsers size={28} /></span>
                                                 <span>Usuarios</span>
                                             </div>
-                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={()=>{navigate('animes_downloader')}}>
+                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={()=>{navigate('/animes_downloader')}}>
                                                 <span className='mr-6'><BsFillCollectionPlayFill size={28} /></span>
                                                 <span>Animes</span>
                                             </div>

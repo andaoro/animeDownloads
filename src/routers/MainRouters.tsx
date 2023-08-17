@@ -7,6 +7,7 @@ import { Reproductor } from '../views/Reproductor/Reproductor';
 import { PlaylistLobby } from '../views/Playlist/PlaylistLobby';
 import { Users } from '../views/Admin/Users/Users';
 import { NotFound } from '../views/NotFound/NotFound';
+import { AnimesDownloader } from '../views/Admin/Animes/AnimesDownloader';
 
 // Componente de página de error 404
 
@@ -21,7 +22,7 @@ export const MainRouters = () => {
         <Route path="/episodio/reproducir/:id" element={<Reproductor />} />
         <Route path="/playlist" element={<PlaylistLobby />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/animes_downloader" element={<Users />} />
+        <Route path="/animes_downloader" element={<AnimesDownloader />} />
 
         {/* Ruta de fallback para manejar páginas no encontradas */}
         <Route path="*" element={<NotFound />} />
