@@ -51,6 +51,7 @@ export const AnimesDownloader: React.FC = () => {
     const [loadingData, setloadingData] = useState(false)
     const [downloadOption, setdownloadOption] = useState('')
     const [downloadOptionSelected, setdownloadOptionSelected] = useState(0)
+    const [opcionDescarga, setopcionDescarga] = useState('1')
     const [remoteDataAnime, setremoteDataAnime] = useState<IRemoteDataAnime | null>(null)
     const [LoadingAnimeData, setLoadingAnimeData] = useState(false)
     const { user } = useContext(UserContext)
@@ -58,14 +59,20 @@ export const AnimesDownloader: React.FC = () => {
 
     const ConsultarRemoteDataAnime = () => {
         if (urlInfoAnime.toString().trim() !== "") {
+            setloadingData(true)
+            setRemoteDataEpisodes(null)
             axios.get(`/remote/info?url=${urlInfoAnime}`, {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
                 }
             }).then((response) => {
                 console.log(response.data)
+                setremoteDataAnime(response.data)
             }).catch((err) => {
+                AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
                 console.log(err)
+            }).finally(() => {
+                setloadingData(false)
             })
         }
     }
@@ -81,6 +88,7 @@ export const AnimesDownloader: React.FC = () => {
             }).then((response) => {
                 setRemoteDataEpisodes(response.data)
             }).catch((err) => {
+                AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
                 console.log(err)
             }).finally(() => {
                 setloadingData(false)
@@ -88,7 +96,23 @@ export const AnimesDownloader: React.FC = () => {
         }
     }
 
-    const Descargar = () => {
+    const Buscar = () => {
+        switch (opcionDescarga) {
+            case '1':
+                ConsultarRemoteDataEpisodeAnime()
+                break;
+
+            case '2':
+                ConsultarRemoteDataAnime()
+                break;
+
+            default:
+                ConsultarRemoteDataEpisodeAnime()
+                break;
+        }
+    }
+
+    const DescargarEpisodio = () => {
         setloadingData(true)
         axios.post('/remote/downloadEpisode', {
             "episodeId": remoteDataEpisodes?.id,
@@ -109,15 +133,54 @@ export const AnimesDownloader: React.FC = () => {
         })
     }
 
+    const DescargarAnime = () => {
+        setloadingData(true)
+        axios.post('/remote/downloadAnime',{
+            "animeId": remoteDataAnime?.id,
+            "optionName": "um2" || "YourUpload"
+        },{
+            headers:{
+                Authorization:`Bearer ${user.accessToken}`
+            }
+        }).then((response)=>{
+            if (response.data.success) {
+                AgregarAlerta(createNewAlert, response.data.msg, 'success')
+            }
+        }).catch((err)=>{
+            AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
+            console.log(err)
+        }).finally(()=>{
+            setloadingData(false)
+        })
+    }
+
+    const Descargar = () => {
+        switch (opcionDescarga) {
+            case '1':
+                DescargarEpisodio()
+                break;
+
+            case '2':
+                DescargarAnime()
+                break;
+        
+            default:
+                DescargarEpisodio()
+                break;
+        }
+    }
+
+    const limpiarDatos = () =>{
+        setremoteDataAnime(null)
+        setRemoteDataEpisodes(null)
+        seturlInfoAnime('')
+        setopcionDescarga('1')
+    }
 
     return (
         <AppLayout>
-            <div className='flex flex-col ga-y-6'>
-                <button onClick={ConsultarRemoteDataEpisodeAnime}>Buscar Episodio</button>
-                <button onClick={ConsultarRemoteDataAnime}>Buscar Anime</button>
-            </div>
             <section className='mt-12 flex flex-col w-screen px-32 gap-6'>
-                <select defaultValue={1} className='bg-sky-900 w-64 px-4 py-2 rounded [&>option]:bg-gray-900'>
+                <select onChange={(e) => { setopcionDescarga(e.target.value) }} value={opcionDescarga} defaultValue={1} className='bg-sky-900 w-64 px-4 py-2 rounded [&>option]:bg-gray-900'>
                     <option disabled> -- Seleccione una opcion -- </option>
                     <option value={1}>Episodio</option>
                     <option value={2}>Anime</option>
@@ -130,8 +193,13 @@ export const AnimesDownloader: React.FC = () => {
                         value={urlInfoAnime}
                         onChange={(e) => { seturlInfoAnime(e.target.value) }}
                         className='bg-transparent outline-none w-full'
+                        onKeyUp={(e)=>{
+                            if(e.keyCode == 13){
+                                Buscar()
+                            }
+                        }}
                     />
-                    <span onClick={ConsultarRemoteDataEpisodeAnime} className='absolute right-3 cursor-pointer bg-sky-600 p-2 rounded-full flex items-center justify-center'><AiOutlineSearch size={20} /></span>
+                    <span onClick={Buscar} className='absolute right-3 cursor-pointer bg-sky-600 p-2 rounded-full flex items-center justify-center'><AiOutlineSearch size={20} /></span>
                 </label>
 
             </section>
@@ -142,27 +210,45 @@ export const AnimesDownloader: React.FC = () => {
                         (!loadingData && !LoadingAnimeData) ?
                             (remoteDataEpisodes !== null || remoteDataAnime !== null) &&
                             (<div className='flex flex-col'>
-                                <div className='flex'>
-                                    <picture className='w-24'>
-                                        <img src={`${URL_IMAGENES}${remoteDataEpisodes?.imageUrl}`} alt='Banner del anime' className='w-full' />
-                                    </picture>
-                                    <div className='px-12 flex flex-col justify-center gap-3'>
-                                        <p>{remoteDataEpisodes?.animeTitle}</p>
-                                        <p>{remoteDataEpisodes?.episodeTitle}</p>
-                                        <p>{remoteDataEpisodes?.provider}</p>
-                                        <div className='flex gap-4'>
-                                            {
-                                                remoteDataEpisodes?.downloadOptions.map((opcion, index) => (
-                                                    opcion.supported && <span onClick={() => {
-                                                        setdownloadOptionSelected(index)
-                                                        setdownloadOption(opcion.name)
-                                                    }} className={`cursor-pointer text-center flex items-center px-2 w-auto h-10 rounded ${downloadOptionSelected == index ? 'bg-lime-600 ' : ' border-2 border-lime-300'}`} key={index}>{opcion.name}</span>
-                                                ))
-                                            }
-                                        </div>
+                                {
+                                    remoteDataEpisodes && (
+                                        <div className='flex'>
+                                            <picture className='w-24'>
+                                                <img src={`${URL_IMAGENES}${remoteDataEpisodes?.imageUrl}`} alt='Banner del anime' className='w-full' />
+                                            </picture>
+                                            <div className='px-12 flex flex-col justify-center gap-3'>
+                                                <p>{remoteDataEpisodes?.animeTitle}</p>
+                                                <p>{remoteDataEpisodes?.episodeTitle}</p>
+                                                <p>{remoteDataEpisodes?.provider}</p>
+                                                <div className='flex gap-4'>
+                                                    {
+                                                        remoteDataEpisodes?.downloadOptions.map((opcion, index) => (
+                                                            opcion.supported && <span onClick={() => {
+                                                                setdownloadOptionSelected(index)
+                                                                setdownloadOption(opcion.name)
+                                                            }} className={`cursor-pointer text-center flex items-center px-2 w-auto h-10 rounded ${downloadOptionSelected == index ? 'bg-lime-600 ' : ' border-2 border-lime-300'}`} key={index}>{opcion.name}</span>
+                                                        ))
+                                                    }
+                                                </div>
 
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    remoteDataAnime && (
+                                        <div className='flex'>
+                                            <picture className='w-24'>
+                                                <img src={`${URL_IMAGENES}${remoteDataAnime?.imageUrl}`} alt='Banner del anime' className='w-full' />
+                                            </picture>
+                                            <div className='px-12 flex flex-col justify-center gap-3'>
+                                                <p>{remoteDataAnime?.title}</p>
+                                                <p>{remoteDataAnime?.provider}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
                                 <div className='mt-20'>
                                     <button onClick={Descargar} className='bg-sky-700 px-12 py-2 rounded'>Descargar</button>
                                 </div>

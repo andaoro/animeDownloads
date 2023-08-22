@@ -28,6 +28,10 @@ const HomeScreen: React.FC = () => {
   const [morePages, setmorePages] = useState(true)
   const {alertas, createNewAlert} = useAlerts()
 
+  useEffect(()=>{
+    window.document.title = "EnderAnime"
+  })
+
   useEffect(() => {
     if (user && user.accessToken.toString().trim() != "") {
       getDownloadedAnimes()

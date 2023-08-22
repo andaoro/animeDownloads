@@ -86,6 +86,7 @@ export const AnimeEpisodesView: React.FC = () => {
             } else {
                 setmorePages(false)
             }
+            window.document.title = `ver ${response.data.object.title} ─ EnderAnime`
             setanimeData(response.data)
             setisLoadingDataEpisodes(false)
             setepisodes(response.data.elements)

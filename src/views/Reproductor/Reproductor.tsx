@@ -58,6 +58,7 @@ export const Reproductor: React.FC = () => {
           Authorization: `Bearer ${user.accessToken}`
         }
       }).then((response) => {
+        window.document.title = `${response.data.animeTitle} ${response.data.episodeTitle}`
         if (response.data.next) {
           setnext(response.data.next)
         }
