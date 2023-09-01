@@ -38,6 +38,7 @@ interface IRemoteDataAnime {
     remoteEpisodesUrl: string[]
     title: string
     updatedDB: boolean
+    downloadOptions: TdownloadOptions[]
 }
 
 
@@ -65,9 +66,15 @@ export const AnimesDownloader: React.FC = () => {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
                 }
-            }).then((response) => {
-                console.log(response.data)
-                setremoteDataAnime(response.data)
+            }).then(async(response) => {
+                let dataEpisode = await axios.get(`/remote/episodeInfo?url=${response.data.remoteEpisodesUrl[0]}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.accessToken}`
+                    }
+                })
+                let downloadOptionProvider = dataEpisode.data.downloadOptions
+                
+                setremoteDataAnime({...response.data,downloadOptions:downloadOptionProvider})
             }).catch((err) => {
                 AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
                 console.log(err)
@@ -137,7 +144,7 @@ export const AnimesDownloader: React.FC = () => {
         setloadingData(true)
         axios.post('/remote/downloadAnime',{
             "animeId": remoteDataAnime?.id,
-            "optionName": "um2" || "YourUpload"
+            "optionName": downloadOption
         },{
             headers:{
                 Authorization:`Bearer ${user.accessToken}`
@@ -177,10 +184,11 @@ export const AnimesDownloader: React.FC = () => {
         setopcionDescarga('1')
     }
 
+    console.log(remoteDataAnime)
     return (
         <AppLayout>
             <section className='mt-12 flex flex-col w-screen px-32 gap-6'>
-                <select onChange={(e) => { setopcionDescarga(e.target.value) }} value={opcionDescarga} defaultValue={1} className='bg-sky-900 w-64 px-4 py-2 rounded [&>option]:bg-gray-900'>
+                <select onChange={(e) => { setopcionDescarga(e.target.value) }} value={opcionDescarga} className='bg-sky-900 w-64 px-4 py-2 rounded [&>option]:bg-gray-900'>
                     <option disabled> -- Seleccione una opcion -- </option>
                     <option value={1}>Episodio</option>
                     <option value={2}>Anime</option>
@@ -244,6 +252,16 @@ export const AnimesDownloader: React.FC = () => {
                                             <div className='px-12 flex flex-col justify-center gap-3'>
                                                 <p>{remoteDataAnime?.title}</p>
                                                 <p>{remoteDataAnime?.provider}</p>
+                                                <div className='flex gap-4'>
+                                                    {
+                                                        remoteDataAnime?.downloadOptions.map((opcion, index) => (
+                                                            opcion.supported && <span onClick={() => {
+                                                                setdownloadOptionSelected(index)
+                                                                setdownloadOption(opcion.name)
+                                                            }} className={`cursor-pointer text-center flex items-center px-2 w-auto h-10 rounded ${downloadOptionSelected == index ? 'bg-lime-600 ' : ' border-2 border-lime-300'}`} key={index}>{opcion.name}</span>
+                                                        ))
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     )
