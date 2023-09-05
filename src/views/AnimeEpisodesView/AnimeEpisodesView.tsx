@@ -46,6 +46,7 @@ export const AnimeEpisodesView: React.FC = () => {
     const [isLoadingDataEpisodes, setisLoadingDataEpisodes] = useState(true)
     const [pagenumber, setpagenumber] = useState(0)
     const [morePages, setmorePages] = useState(true)
+    const [loadScroll, setloadScroll] = useState(false)
     const {alertas, createNewAlert} = useAlerts()
     const { user } = useContext(UserContext)
     const { id } = useParams()
@@ -70,7 +71,8 @@ export const AnimeEpisodesView: React.FC = () => {
     const handleScroll = () => {
         const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
         // Si el scroll llega al final de la página, carga más datos
-        if (scrollTop + clientHeight >= scrollHeight) {
+        if (scrollTop + clientHeight >= scrollHeight && !loadScroll) {
+            console.log(loadScroll)
             getAnimeEpisodesScroll();
         }
     };
@@ -98,7 +100,8 @@ export const AnimeEpisodesView: React.FC = () => {
     }
 
     const getAnimeEpisodesScroll = () => {
-        if (morePages) {
+        if (morePages && !loadScroll) {
+            setloadScroll(true)
             axios.get(`/downloaded/${id}?page=${pagenumber}`, {
                 headers: {
                     Authorization: `Bearer ${user.accessToken}`
@@ -112,9 +115,12 @@ export const AnimeEpisodesView: React.FC = () => {
                 setanimeData(response.data)
                 setisLoadingDataEpisodes(false)
                 setepisodes(prevData => [...prevData, ...response.data.elements])
+                console.log('1')
 
             }).catch((err) => {
                 console.error(err)
+            }).finally(()=>{
+                setloadScroll(false)
             })
         }
 

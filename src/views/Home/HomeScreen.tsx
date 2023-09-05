@@ -25,10 +25,11 @@ const HomeScreen: React.FC = () => {
   const [animesDownloadedArray, setanimesDownloadedArray] = useState<IAnimesDownloadedProps[]>([])
   const [animesDownloadedSeasonArray, setanimesDownloadedSeasonArray] = useState<IAnimesDownloadedProps[]>([])
   const [isLoading, setisLoading] = useState<boolean>(true)
-  const navigate = useNavigate()
   const [pagenumber, setpagenumber] = useState(0)
   const [morePages, setmorePages] = useState(true)
   const { alertas, createNewAlert } = useAlerts()
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     window.document.title = "EnderAnime"
@@ -60,20 +61,36 @@ const HomeScreen: React.FC = () => {
   };
 
   const compareByEmissionDay = (a: any, b: any) => {
-    // Si ambos objetos no tienen emissionDay, no cambian de posición
+
+    // Parsea las fechas en formato "YYYY-MM-DD"
+    let fa = a.emissionDate
+    let fb = b.emissionDate
+    const dateA = new Date(fa);
+    const dateB = new Date(fb);
+
+    // Compara las fechas
+    if (dateA < dateB) {
+      return -1;
+    } else if (dateA > dateB) {
+      return 1;
+    } else {
+      return 0;
+    }
+
+    /* // Si ambos objetos no tienen emissionDay, no cambian de posición
     if (!a.emissionDay && !b.emissionDay) {
       return 0;
     }
     // Si a tiene emissionDay y b no, a va antes
     if (a.emissionDay && !b.emissionDay) {
-      return -1;
+      return 1;
     }
     // Si b tiene emissionDay y a no, b va antes
     if (!a.emissionDay && b.emissionDay) {
-      return 1;
+      return -1;
     }
     // Ambos tienen emissionDay, los comparamos
-    return a.emissionDay.localeCompare(b.emissionDay);
+    return a.emissionDay.localeCompare(b.emissionDay); */
   }
 
   const getDownloadedAnimes = () => {
@@ -135,15 +152,21 @@ const HomeScreen: React.FC = () => {
     })
   }
 
-  /* animesDownloadedArray.sort(compareByEmissionDay) */
+  const ParamTitle = ({ text }: { text: string }) => {
+    return (
+      <h1 className="text-3xl font-bold px-4 border-l-4">{text}</h1>
+    )
 
+  }
+
+  /* animesDownloadedSeasonArray.sort(compareByEmissionDay) */
   return (
     <AppLayout>
       {
         !isLoading ? (
           <>
-            <div className="flex px-40 py-2 items-center">
-              <h1 className="text-2xl font-bold">Animes en emisión</h1>
+            <div className="flex px-40 py-4 items-center">
+              <ParamTitle text="Animes en emisión" />
             </div>
             <div className="animes_dowloaded_container_grid">
               {
@@ -153,8 +176,10 @@ const HomeScreen: React.FC = () => {
               }
             </div>
 
-            <div className="flex justify-center py-2 items-center my-6 border-t-2 lg:px-40 lg:justify-normal">
-              <h1 className="text-2xl font-bold">Últimos animes agregados</h1>
+            <hr className="my-4" />
+
+            <div className="flex justify-center py-2 items-center my-6 lg:px-40 lg:justify-normal">
+              <ParamTitle text="Últimos animes agregados" />
             </div>
             <div className="animes_dowloaded_container_grid">
               {
