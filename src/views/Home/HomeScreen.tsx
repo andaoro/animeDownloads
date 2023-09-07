@@ -76,21 +76,6 @@ const HomeScreen: React.FC = () => {
     } else {
       return 0;
     }
-
-    /* // Si ambos objetos no tienen emissionDay, no cambian de posición
-    if (!a.emissionDay && !b.emissionDay) {
-      return 0;
-    }
-    // Si a tiene emissionDay y b no, a va antes
-    if (a.emissionDay && !b.emissionDay) {
-      return 1;
-    }
-    // Si b tiene emissionDay y a no, b va antes
-    if (!a.emissionDay && b.emissionDay) {
-      return -1;
-    }
-    // Ambos tienen emissionDay, los comparamos
-    return a.emissionDay.localeCompare(b.emissionDay); */
   }
 
   const getDownloadedAnimes = () => {
@@ -110,6 +95,7 @@ const HomeScreen: React.FC = () => {
     }).catch((err) => {
       AgregarAlerta(createNewAlert, "HA OCURRIDO UN ERROR", "danger")
       console.error(err)
+      localStorage.removeItem("UserInfo")
     }).finally(() => {
       setisLoading(false)
     })

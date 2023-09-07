@@ -26,6 +26,7 @@ export const HomeCards: React.FC<IPropsHomeCards> = ({ anime, index }) => {
     const navigate = useNavigate()
 
     return (
+        
         <div key={index} className="anime_Dowloaded_Card relative" onClick={() => { navigate(`/anime/${anime.id}/episodes`) }}>
             <img src={`${URL_IMAGENES}${anime.imageUrl}`} className="imgwhhome" />
             <div>

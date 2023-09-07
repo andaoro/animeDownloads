@@ -1,20 +1,23 @@
 import './styles.css'
+import axios from '../../utils/axios/axiosBase'
+import hertaLogo from '../../assets/gifs/herta-loading.gif'
 import logo from '../../assets/img/enderythead.png'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
-import { useNavigate } from 'react-router-dom'
-import axios from '../../utils/axios/axiosBase'
-import hertaLogo from '../../assets/gifs/herta-loading.gif'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { MdPlaylistPlay, MdOutlinePlaylistRemove, MdFavorite, MdList, MdOutlineExitToApp, MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { BsFillCollectionPlayFill } from "react-icons/bs";
+import { AiOutlineSearch } from "react-icons/ai"
+import PATHS from '../../routers/CONSTPATHS'
 
 const Header: React.FC = () => {
+    const { user, setUser } = useContext(UserContext)
+    const [viewOptionsUser, setviewOptionsUser] = useState(false)
+    const {pathname} = useLocation()
     const navigate = useNavigate()
     let userData: string | null = localStorage.getItem('UserInfo')
     let usuario: IDataUserProps;
-    const { user, setUser } = useContext(UserContext)
-    const [viewOptionsUser, setviewOptionsUser] = useState(false)
 
     useEffect(() => {
         if (userData) {
@@ -47,14 +50,19 @@ const Header: React.FC = () => {
         )
     }
 
-
     return (
         <header className=' bg-sky-700 z-50'>
-            <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} onClick={() => { navigate('/home') }} />
+            <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} onClick={() => { navigate(PATHS.HOME) }} />
 
-            <div className='md:relative z-20'>
+            <div className='flex gap-x-12 md:relative z-20'>
+                <span onClick={()=>{navigate(PATHS.HOME)}} className={`hidden md:inline text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.HOME && 'text-blue-100'}`}>Inicio</span>
+                <span onClick={()=>{navigate(PATHS.DIRECTORY)}} className={`hidden md:inline text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.DIRECTORY && 'text-blue-100'}`}>Directorio</span>
+                <label className='hidden md:flex justify-center items-center relative bg-sky-950 rounded-xl px-2 py-1'>
+                    <input type='text' placeholder='Buscar...' className='bg-transparent outline-none px-2 text-blue-100 placeholder:text-blue-300'/>
+                    <span className=''><AiOutlineSearch size={20} /></span>
+                </label>
                 <div onClick={() => { setviewOptionsUser(!viewOptionsUser) }} className='flex items-center cursor-pointer'>
-                    <span className='userName' >{user?.username}</span>
+                    <span className='userName font-bold' >{user?.username}</span>
                     <span className='ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>
                 </div>
                 {
@@ -85,11 +93,11 @@ const Header: React.FC = () => {
                                                 <span className='mr-6'><MdPlaylistPlay size={28} /></span>
                                                 <span className=''>Playlist</span>
                                             </div>
-                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={()=>{navigate('/users')}}>
+                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={() => { navigate('/users') }}>
                                                 <span className='mr-6'><FaUsers size={28} /></span>
                                                 <span>Usuarios</span>
                                             </div>
-                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={()=>{navigate('/animes_downloader')}}>
+                                            <div className='flex items-center w-full hover:bg-sky-600 py-4 cursor-pointer px-6' onClick={() => { navigate('/animes_downloader') }}>
                                                 <span className='mr-6'><BsFillCollectionPlayFill size={28} /></span>
                                                 <span>Animes</span>
                                             </div>
@@ -125,8 +133,8 @@ const Header: React.FC = () => {
                 }
             </div>
             {
-                viewOptionsUser&& (
-                    <div className='absolute h-screen w-screen top-0 left-0 bg-gray-800/70 z-10' onClick={()=>{setviewOptionsUser(false)}}></div>
+                viewOptionsUser && (
+                    <div className='absolute h-screen w-screen top-0 left-0 bg-gray-800/70 z-10' onClick={() => { setviewOptionsUser(false) }}></div>
                 )
             }
         </header>

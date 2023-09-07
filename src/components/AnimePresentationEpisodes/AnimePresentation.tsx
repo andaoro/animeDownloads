@@ -10,6 +10,7 @@ import { Loading } from '../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import { useAlerts } from '../../hooks/useAlerts';
 import { AgregarAlerta } from '../../utils/Helpers';
+import PATHS from '../../routers/CONSTPATHS';
 
 interface IAnimeData {
     data: IObjectData
@@ -42,6 +43,8 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
     }
 
 
+    console.log(`${PATHS.PLAYER}/${capitulos[0].id}`)
+
     return (
         <div className='Presentacion_container'>
             <div className='backgroundPresentacion'></div>
@@ -55,7 +58,7 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
                     <span className='presentacion_capview_icon_play'><BsPlay size={65} /></span>
                 </div>
                 <div className='presntacion_capview_options'>
-                    <div className='presentacion_capview_option_body playbtn' onClick={() => { navigate(`/episodio/reproducir/${capitulos[0].id}`) }}>
+                    <div className='presentacion_capview_option_body playbtn' onClick={() => { navigate(`${(PATHS.PLAYER).replace(":id",`${capitulos[0].id}`)}`) }}>
                         <span><BsPlay /></span>
                         <span>Comenzar a ver E1</span>
                     </div>

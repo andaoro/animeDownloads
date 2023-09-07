@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import UserContext from "./Context/UserContext"
 import { IDataUserProps } from "./Context/UserContext"
+import PATHS from "./routers/CONSTPATHS"
 
 
 function App() {
@@ -15,9 +16,9 @@ function App() {
     if (userData) {
       usuario = JSON.parse(userData)
       setUser(usuario)
-      navigate('/home')
+      navigate(PATHS.HOME)
     } else {
-      navigate('/login')
+      navigate(PATHS.LOGIN)
     }
   }, [userData])
 
