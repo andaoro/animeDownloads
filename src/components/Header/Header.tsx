@@ -52,15 +52,15 @@ const Header: React.FC = () => {
 
     return (
         <header className=' bg-sky-700 z-50'>
-            <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} onClick={() => { navigate(PATHS.HOME) }} />
+            <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} className='hidden md:inline' onClick={() => { navigate(PATHS.HOME) }} />
 
-            <div className='flex gap-x-12 md:relative z-20'>
-                <span onClick={()=>{navigate(PATHS.HOME)}} className={`hidden md:inline text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.HOME && 'text-blue-100'}`}>Inicio</span>
-                <span onClick={()=>{navigate(PATHS.DIRECTORY)}} className={`hidden md:inline text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.DIRECTORY && 'text-blue-100'}`}>Directorio</span>
-                <label className='hidden md:flex justify-center items-center relative bg-sky-950 rounded-xl px-2 py-1'>
+            <div className='flex justify-center w-full md:w-auto md:justify-normal gap-x-12 md:relative z-20'>
+                <span onClick={()=>{navigate(PATHS.HOME)}} className={` text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.HOME && 'text-blue-100'}`}>Inicio</span>
+                <span onClick={()=>{navigate(PATHS.DIRECTORY)}} className={` text-lg cursor-pointer font-bold text-sky-950 hover:text-blue-100 ${pathname == PATHS.DIRECTORY && 'text-blue-100'}`}>Directorio</span>
+                {/* <label className='hidden md:flex justify-center items-center relative bg-sky-950 rounded-xl px-2 py-1'>
                     <input type='text' placeholder='Buscar...' className='bg-transparent outline-none px-2 text-blue-100 placeholder:text-blue-300'/>
                     <span className=''><AiOutlineSearch size={20} /></span>
-                </label>
+                </label> */}
                 <div onClick={() => { setviewOptionsUser(!viewOptionsUser) }} className='flex items-center cursor-pointer'>
                     <span className='userName font-bold' >{user?.username}</span>
                     <span className='ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>

@@ -157,7 +157,7 @@ const HomeScreen: React.FC = () => {
             <div className="animes_dowloaded_container_grid">
               {
                 animesDownloadedSeasonArray.map((anime, index) => (
-                  <HomeCards anime={anime} index={index} />
+                  <HomeCards anime={anime} index={index} key={index}/>
                 ))
               }
             </div>
@@ -170,7 +170,7 @@ const HomeScreen: React.FC = () => {
             <div className="animes_dowloaded_container_grid">
               {
                 animesDownloadedArray.map((anime, index) => (
-                  <HomeCards anime={anime} index={index} />
+                  <HomeCards anime={anime} index={index} key={index}/>
                 ))
               }
             </div>

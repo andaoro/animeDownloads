@@ -32,7 +32,6 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
         <div className='reproductor_video_Container'>
           <video
             src={`${baseURL}${urlEpisode}`}
-            autoPlay
             controls
             ref={video}
           />

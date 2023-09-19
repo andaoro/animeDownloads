@@ -42,9 +42,6 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
         })
     }
 
-
-    console.log(`${PATHS.PLAYER}/${capitulos[0].id}`)
-
     return (
         <div className='Presentacion_container'>
             <div className='backgroundPresentacion'></div>

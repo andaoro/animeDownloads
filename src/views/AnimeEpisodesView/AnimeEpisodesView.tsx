@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
-import { AiOutlinePlayCircle } from "react-icons/ai";
+import { AiOutlinePlayCircle,AiOutlineEye } from "react-icons/ai";
 import './stylesEpisodes.css'
 import axios from "../../utils/axios/axiosBase"
 import UserContext from '../../Context/UserContext';
@@ -24,6 +24,7 @@ export interface IElementsData {
     episodeTitle: string
     episodeNumber: string
     downloadedEpisodes: IDownloadOptions[]
+    completed:boolean
 }
 
 export interface IObjectData {
@@ -38,6 +39,7 @@ interface IEpisodesProps {
     elements: IElementsData[]
     object: IObjectData
     totalPages: number
+    
 }
 
 export const AnimeEpisodesView: React.FC = () => {
@@ -149,12 +151,15 @@ export const AnimeEpisodesView: React.FC = () => {
                     (
                         <>
                             <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
-                            <div className='animes_dowloaded_container_grid'>
+                            <div className='animes_dowloaded_container_grid mt-6'>
                                 {episodes.map((episode) => (
-                                    <div className='card_Episodes' key={episode.id}>
+                                    <div className={`card_Episodes ${episode.completed?"[&>a>div>section>img]:opacity-40":""}`} key={episode.id}>
                                         <a onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
                                             <div className='image_Episode_Container'>
-                                                <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
+                                                <section className='relativ'>
+                                                    <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
+                                                    {episode.completed && <span className='absolute bottom-2 right-2 bg-black px-2 py-1 text-sm'>visto</span>}
+                                                </section>
                                                 <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
                                             </div>
                                             <div>
