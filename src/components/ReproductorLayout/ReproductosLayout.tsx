@@ -1,10 +1,12 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
 import Header from '../Header/Header'
 import './stylesReproductorLayout.css'
 import { useNavigate } from 'react-router-dom'
-import { AiOutlinePlayCircle } from 'react-icons/ai'
+import { AiOutlinePlayCircle, AiOutlineEye } from 'react-icons/ai'
 import { IDataNextPrev } from '../../views/Reproductor/Reproductor'
 import { URL_IMAGENES } from '../../utils/Helpers'
+import axios from '../../utils/axios/axiosBase'
+import UserContext from '../../Context/UserContext'
 
 interface ReproductorProps {
   urlEpisode: string,
@@ -15,18 +17,35 @@ interface ReproductorProps {
   episodeNumber: number,
   cambiarCapitulo: (idcap?: number) => any
   reproductorType: number
+  id?: number | string | undefined
 }
 
 export const ReproductorLayout: React.FC<ReproductorProps> = ({
-  urlEpisode, next, prev, animeId, animeTittle, episodeNumber, cambiarCapitulo, reproductorType
+  urlEpisode, next, prev, animeId, animeTittle, episodeNumber, cambiarCapitulo, reproductorType, id
 }) => {
 
   const video = useRef<HTMLVideoElement>(null)
   const navigate = useNavigate()
   const baseURL = import.meta.env.VITE_BASE_URL_MEDIA || ''
+  const { user } = useContext(UserContext)
+
+  const agregar_visto = async () => {
+    try {
+      let data = await axios.patch(`/episode/${id}?completed=${true}`, {}, {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        }
+      })
+
+      console.log(data)
+    } catch (error) {
+      
+    }
+
+  }
 
   return (
-    <div className='AppBodyR'>
+    <div className='bg-default overflow-x-hidden h-screen text-white'>
       <Header />
       <div className='ChildrenContainerR'>
         <div className='reproductor_video_Container'>
@@ -42,6 +61,10 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
             <div>
               <p className='anime_info_tittle' onClick={() => { navigate(`/anime/${animeId}/episodes`) }}>{animeTittle}</p>
               <p>E{episodeNumber}-Episodio {episodeNumber}</p>
+              <div onClick={()=>{agregar_visto()}} className='bg-navbar cursor-pointer hover:scale-105 transition-all duration-300 my-4 p-2 rounded gap-x-5 flex'>
+                <span><AiOutlineEye size={25} /></span>
+                <span>visto</span>
+              </div>
             </div>
           </div>
           <div className={`anime_info ${next == null && prev == null && 'titleFull'}`}>

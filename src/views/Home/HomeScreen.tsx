@@ -9,6 +9,8 @@ import { URL_IMAGENES } from "../../utils/Helpers"
 import { useAlerts } from "../../hooks/useAlerts"
 import { AgregarAlerta } from "../../utils/Helpers"
 import { HomeCards } from "./HomeCards"
+import PATHS from "../../routers/CONSTPATHS"
+
 
 
 export interface IAnimesDownloadedProps {
@@ -140,7 +142,7 @@ const HomeScreen: React.FC = () => {
 
   const ParamTitle = ({ text }: { text: string }) => {
     return (
-      <h1 className="text-3xl font-bold px-4 border-l-4">{text}</h1>
+      <h1 className="text-3xl font-bold px-4 border-l-4 text-Tdefault">{text}</h1>
     )
 
   }
@@ -150,31 +152,47 @@ const HomeScreen: React.FC = () => {
     <AppLayout>
       {
         !isLoading ? (
-          <>
-            <div className="flex px-40 py-4 items-center">
-              <ParamTitle text="Animes en emisión" />
-            </div>
-            <div className="animes_dowloaded_container_grid">
-              {
-                animesDownloadedSeasonArray.map((anime, index) => (
-                  <HomeCards anime={anime} index={index} key={index}/>
-                ))
-              }
-            </div>
+          <div className="flex w-full justify-between">
+            <section className="hidden lg:inline py-8">
+              <div className="mx-4 py-4 bg-navbar box-border">
+                <h2 className="px-4 font-bold text-principal">ULTIMOS ANIMES AGREGADOS</h2>
+                <div className="flex flex-col ">
+                  {
+                    animesDownloadedArray.map((anime) => (
+                      <span key={anime.id} onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id", anime.id.toString())}`) }} className="truncate px-4 my-3 cursor-pointer hover:text-Rsecondary transition-all duration-300 w-[350px]">{anime.title}</span>
+                    ))
+                  }
+                </div>
 
-            <hr className="my-4" />
+              </div>
+            </section>
+            <section className="lg:w-4/5 px-4">
+              <div className="flex py-8 items-center">
+                <ParamTitle text="Animes en emisión" />
+              </div>
+              <div className="flex flex-col justify-centers items-centergrid-cols-1 text-center sm:grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {
+                  animesDownloadedSeasonArray.map((anime, index) => (
+                    <HomeCards anime={anime} index={index} key={index} />
+                  ))
+                }
+              </div>
 
-            <div className="flex justify-center py-2 items-center my-6 lg:px-40 lg:justify-normal">
-              <ParamTitle text="Últimos animes agregados" />
-            </div>
-            <div className="animes_dowloaded_container_grid">
-              {
-                animesDownloadedArray.map((anime, index) => (
-                  <HomeCards anime={anime} index={index} key={index}/>
-                ))
-              }
-            </div>
-          </>
+              <hr className="my-4" />
+
+              <div className="flex py-8 items-center">
+                <ParamTitle text="Últimos animes agregados" />
+              </div>
+              <div className="flex flex-col justify-centers items-centergrid-cols-1 text-center sm:grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {
+                  animesDownloadedArray.map((anime, index) => (
+                    <HomeCards anime={anime} index={index} key={index} />
+                  ))
+                }
+              </div>
+            </section>
+
+          </div>
 
         ) :
           (

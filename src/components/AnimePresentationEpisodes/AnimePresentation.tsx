@@ -44,22 +44,22 @@ export const AnimePresentation: React.FC<IAnimeData> = ({ data, capitulos }) => 
 
     return (
         <div className='Presentacion_container'>
-            <div className='backgroundPresentacion'></div>
+            <div className='backgroundPresentacion bg-Tdefault'></div>
             <div className=' z-10 w-auto flex flex-col'>
                 <img src={`${URL_IMAGENES}${data.imageUrl}`} className='w-48 text-center object-cover mb-4 rounded'/>
                 <p style={{ fontSize: "12px" }}>{data.title}</p>
             </div>
             <div className='presentacion_capview'>
-                <div className='presentacion_capview_imagen'>
+                {/* <div className='presentacion_capview_imagen'>
                     <img src={`${URL_IMAGENES}${capitulos[0].imageUrl}`}/>
                     <span className='presentacion_capview_icon_play'><BsPlay size={65} /></span>
-                </div>
+                </div> */}
                 <div className='presntacion_capview_options'>
-                    <div className='presentacion_capview_option_body playbtn' onClick={() => { navigate(`${(PATHS.PLAYER).replace(":id",`${capitulos[0].id}`)}`) }}>
+                    <div className='presentacion_capview_option_body bg-Bprincipal' onClick={() => { navigate(`${(PATHS.PLAYER).replace(":id",`${capitulos[0].id}`)}`) }}>
                         <span><BsPlay /></span>
                         <span>Comenzar a ver E1</span>
                     </div>
-                    <div className='presentacion_capview_option_body salabtn' onClick={agregarAnimePlaylist}>
+                    <div className='presentacion_capview_option_body bg-Bsecondary' onClick={agregarAnimePlaylist}>
                         <span ><MdAdd color={'#FFFFFF'} size={22} /></span>
                         <span>Añadir anime a playlist</span>
                     </div>

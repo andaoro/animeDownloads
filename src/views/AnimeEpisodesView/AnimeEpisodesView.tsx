@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from '../../components/AppLayout/AppLayout';
-import { AiOutlinePlayCircle,AiOutlineEye } from "react-icons/ai";
+import { AiOutlinePlayCircle, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import './stylesEpisodes.css'
 import axios from "../../utils/axios/axiosBase"
 import UserContext from '../../Context/UserContext';
@@ -10,6 +10,7 @@ import { AnimePresentation } from '../../components/AnimePresentationEpisodes/An
 import { URL_IMAGENES } from '../../utils/Helpers';
 import { useAlerts } from '../../hooks/useAlerts';
 import { AgregarAlerta } from '../../utils/Helpers';
+import { MdList, MdAdd } from 'react-icons/md';
 
 interface IDownloadOptions {
     dateDownloaded: string
@@ -24,7 +25,7 @@ export interface IElementsData {
     episodeTitle: string
     episodeNumber: string
     downloadedEpisodes: IDownloadOptions[]
-    completed:boolean
+    completed: boolean
 }
 
 export interface IObjectData {
@@ -39,7 +40,7 @@ interface IEpisodesProps {
     elements: IElementsData[]
     object: IObjectData
     totalPages: number
-    
+
 }
 
 export const AnimeEpisodesView: React.FC = () => {
@@ -49,7 +50,7 @@ export const AnimeEpisodesView: React.FC = () => {
     const [pagenumber, setpagenumber] = useState(0)
     const [morePages, setmorePages] = useState(true)
     const [loadScroll, setloadScroll] = useState(false)
-    const {alertas, createNewAlert} = useAlerts()
+    const { alertas, createNewAlert } = useAlerts()
     const { user } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
@@ -121,7 +122,7 @@ export const AnimeEpisodesView: React.FC = () => {
 
             }).catch((err) => {
                 console.error(err)
-            }).finally(()=>{
+            }).finally(() => {
                 setloadScroll(false)
             })
         }
@@ -137,7 +138,25 @@ export const AnimeEpisodesView: React.FC = () => {
             }
         }).then((response) => {
             if (response.data.success) {
-                AgregarAlerta(createNewAlert,response.data.msg,"success")
+                AgregarAlerta(createNewAlert, response.data.msg, "success")
+            }
+        }).catch((err) => {
+            console.error(err)
+        })
+    }
+
+    const agregarAnimePlaylist = () => {
+        setisLoadingDataEpisodes(true)
+        axios.patch(`/playlist/anime`, {
+            id: animeData.object.id
+        }, {
+            headers: {
+                Authorization: `Bearer ${user.accessToken}`
+            }
+        }).then((response) => {
+            if (response.data.success) {
+                AgregarAlerta(createNewAlert,response.data.msg,'success')
+                setisLoadingDataEpisodes(false)
             }
         }).catch((err) => {
             console.error(err)
@@ -149,40 +168,82 @@ export const AnimeEpisodesView: React.FC = () => {
             {
                 !isLoadingDataEpisodes ?
                     (
-                        <>
-                            <AnimePresentation data={animeData.object} capitulos={animeData.elements} />
-                            <div className='animes_dowloaded_container_grid mt-6'>
-                                {episodes.map((episode) => (
-                                    <div className={`card_Episodes ${episode.completed?"[&>a>div>section>img]:opacity-40":""}`} key={episode.id}>
-                                        <a onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
-                                            <div className='image_Episode_Container'>
-                                                <section className='relativ'>
-                                                    <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
-                                                    {episode.completed && <span className='absolute bottom-2 right-2 bg-black px-2 py-1 text-sm'>visto</span>}
-                                                </section>
-                                                <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
-                                            </div>
-                                            <div>
-                                                <p className='episode_anime_title'>{animeData.object.title}</p>
-                                                <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
-
-                                            </div>
-
-                                        </a>
-
-                                        <div className='providers_Episodes'>
-                                            {
-                                                user.userType == "admin" && (
-                                                    <span key={episode.id} className='episode_Provider agregarPlaylist' onClick={() => { agregarCapituloPlaylist(episode.id) }}>Agregar a playlist </span>
-                                                )
-                                            }
-
-                                        </div>
+                        <div className="flex flex-col lg:flex-row w-full justify-between">
+                            {/* <AnimePresentation data={animeData.object} capitulos={animeData.elements} /> */}
+                            <section className='w-5/5 justify-center flex lg:w-1/5 lg:justify-start mt-20 relative px-4'>
+                                <div >
+                                    <div className='p-2 flex flex-col justify-center items-center mb-4'>
+                                        <img
+                                            src={`${URL_IMAGENES}${animeData.object.imageUrl}`}
+                                            className='w-[250px] h-full object-contain mb-4 rounded'
+                                        />
+                                        <span>{animeData.object.title}</span>
                                     </div>
+                                    <div>
+                                        <div className='flex gap-x-8 bg-navbar my-4 py-2 px-3 cursor-pointer hover:scale-105 transition-all duration-300'>
+                                            <span><AiOutlineHeart size={25} /></span>
+                                            <div>
+                                                <span>Agregar </span>
+                                                <span>a favoritos</span>
+                                            </div>
+                                        </div>
+                                        <div className='flex gap-x-8 bg-navbar my-4 py-2 px-3 cursor-pointer hover:scale-105 transition-all duration-300'>
+                                            <span><MdList size={25} /></span>
+                                            <div >
+                                                <span>Agregar </span>
+                                                <span>a lista</span>
+                                            </div>
+                                        </div>
 
-                                ))}
-                            </div>
-                        </>
+                                        {
+                                            user.userType == "admin" && (
+                                                <div onClick={agregarAnimePlaylist} className='flex gap-x-8 bg-navbar my-4 py-2 px-3 cursor-pointer hover:scale-105 transition-all duration-300'>
+                                                    <span><MdAdd size={25} /></span>
+                                                    <span>Agregar anime a playlist</span>
+                                                </div>
+                                            )
+                                        }
+
+                                    </div>
+                                </div>
+                            </section>
+                            <section className="lg:w-4/5 ">
+                                <h3 className='text-4xl px-4 my-4 font-bold'>Lista de episodios</h3>
+                                <hr />
+                                <div className='flex flex-col justify-centers items-center grid-cols-1 text-center sm:grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                                    {episodes.map((episode) => (
+                                        <div className={`card_Episodes ${episode.completed ? "[&>a>div>section>img]:opacity-40" : ""}`} key={episode.id}>
+                                            <a onClick={() => { navigate(`/episodio/reproducir/${episode.id}`) }} >
+                                                <div className='image_Episode_Container'>
+                                                    <section className='relativ'>
+                                                        <img loading='lazy' src={`${URL_IMAGENES}${episode.imageUrl}`} className='imgwh' />
+                                                        {episode.completed && <span className='absolute bottom-2 right-2 bg-black px-2 py-1 text-sm'>visto</span>}
+                                                    </section>
+                                                    <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
+                                                </div>
+                                                <div>
+                                                    <p className='episode_anime_title'>{animeData.object.title}</p>
+                                                    <p>E{episode.episodeNumber} - {episode.episodeTitle}</p>
+
+                                                </div>
+
+                                            </a>
+
+                                            <div className='providers_Episodes'>
+                                                {
+                                                    user.userType == "admin" && (
+                                                        <span key={episode.id} className='agregarPlaylist bg-Rsecondary hover:bg-Rsecondary/60' onClick={() => { agregarCapituloPlaylist(episode.id) }}>Agregar a playlist </span>
+                                                    )
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    ))}
+                                </div>
+                            </section>
+
+                        </div>
                     ) : (
                         <Loading />
                     )

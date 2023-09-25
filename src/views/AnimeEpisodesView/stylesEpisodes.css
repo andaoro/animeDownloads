@@ -85,9 +85,6 @@
     display: block;
 }
 
-.agregarPlaylist:hover{
-    background-color: #4c93be;
-}
 
 @media(max-width:650px){
     .card_Episodes{

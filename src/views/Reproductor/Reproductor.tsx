@@ -58,6 +58,7 @@ export const Reproductor: React.FC = () => {
           Authorization: `Bearer ${user.accessToken}`
         }
       }).then((response) => {
+        console.log(response.data)
         window.document.title = `${response.data.animeTitle} ${response.data.episodeTitle}`
         if (response.data.next) {
           setnext(response.data.next)
@@ -90,6 +91,7 @@ export const Reproductor: React.FC = () => {
         episodeNumber={episodeNumber}
         cambiarCapitulo={cambiarCapitulo}
         reproductorType={1}
+        id={id}
       />
   )
 }

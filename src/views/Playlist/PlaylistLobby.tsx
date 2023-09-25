@@ -48,6 +48,7 @@ export const PlaylistLobby: React.FC = () => {
     }
 
     const ObtenerDatosSiguienteCapituloPlaylist = () => {
+        //axios.get(`/playlist`)
         axios.get(`/playlist/next`,
             {
                 headers: {
