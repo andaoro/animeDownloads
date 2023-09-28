@@ -163,6 +163,8 @@ export const AnimeEpisodesView: React.FC = () => {
         })
     }
 
+    //console.log(animeData.object.title)
+    //.replace(/[^\w\s]/gi, "");
     return (
         <AppLayout>
             {

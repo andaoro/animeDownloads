@@ -1,6 +1,6 @@
 import React from 'react'
-import Herta from '../../assets/gifs/herta-loading.gif'
 import './stylesLoading.css'
+import { Herta } from '../../utils/Assets'
 
 export const Loading:React.FC = () => {
     return (

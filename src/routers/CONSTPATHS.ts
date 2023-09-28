@@ -1,9 +1,10 @@
 const PATHS = {
     HOME:'/home',
     LOGIN:'/login',
-    EPISODES_VIEW:'/anime/:id/episodes',
+    EPISODES_VIEW:'/episodes/:anime_title/:id',
     PLAYER:'/episodio/reproducir/:id',
-    PLAYLIST:'/playlist',
+    PLAYLIST:'/playlist/:id',
+    PLAYLIST_LOBBY:'/lobby/playlist',
     USERS:'/users',
     ANIMES_DOWNLOADER:'/animes_downloader',
     DIRECTORY:'/directory'
@@ -12,11 +13,12 @@ const PATHS = {
 export const NAVIGATEPATHS ={
     HOME:'/home',
     LOGIN:'/login',
-    EPISODES_VIEW:'/anime/:id/episodes',
+    EPISODES_VIEW:'/episodes/:anime_title/:id',
     PLAYER:'/episodio/reproducir/:id',
-    PLAYLIST:'/playlist',
+    PLAYLIST:'/playlist/:id',
     USERS:'/users',
     ANIMES_DOWNLOADER:'/animes_downloader',
+    PLAYLIST_LOBBY:'/lobby/playlist',
 }
 
 export default PATHS

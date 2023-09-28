@@ -7,6 +7,7 @@ import { es } from 'date-fns/locale';
 import { AiFillHeart } from "react-icons/ai";
 import { useAlerts } from '../../hooks/useAlerts';
 import { AgregarAlerta } from '../../utils/Helpers';
+import PATHS from '../../routers/CONSTPATHS';
 
 
 interface IPropsHomeCards {
@@ -31,7 +32,7 @@ export const HomeCards: React.FC<IPropsHomeCards> = ({ anime, index }) => {
 
     return (
         <div className='relative'>
-            <div key={index} className="anime_Dowloaded_Card relative hover:cursor-pointer hover:bg-Tsecondary/20 group p-3 group" onClick={() => { navigate(`/anime/${anime.id}/episodes`) }}>
+            <div key={index} className="anime_Dowloaded_Card relative hover:cursor-pointer hover:bg-Tsecondary/20 group p-3 group" onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id",anime.id.toString()).replace(":anime_title",anime.title.replace(/[^\w\s]/gi, "").replace(/[ ]/gi,"-"))}`) }}>
                 <img src={`${URL_IMAGENES}${anime.imageUrl}`} className="w-[300px] h-[370px] object-cover opacity-80 group-hover:opacity-100" />
                 <div className='flex flex-col justify-between h-full py-2'>
                     <p className=' text-white group-hover:text-Rsecondary transition-all duration-300 text-start'>{anime.title}</p>

@@ -10,6 +10,7 @@ import { NotFound } from '../views/NotFound/NotFound';
 import { AnimesDownloader } from '../views/Admin/Animes/AnimesDownloader';
 import PATHS from './CONSTPATHS';
 import { Directory } from '../views/Directory/Directory';
+import { Playlist } from '../views/Playlist/Playlist';
 
 // Componente de página de error 404
 
@@ -22,7 +23,8 @@ export const MainRouters = () => {
         <Route path={PATHS.HOME} element={<HomeScreen />} />
         <Route path={PATHS.EPISODES_VIEW} element={<AnimeEpisodesView />} />
         <Route path={PATHS.PLAYER} element={<Reproductor />} />
-        <Route path={PATHS.PLAYLIST} element={<PlaylistLobby />} />
+        <Route path={PATHS.PLAYLIST_LOBBY} element={<PlaylistLobby />} />
+        <Route path={PATHS.PLAYLIST} element={<Playlist />} />
         <Route path={PATHS.USERS} element={<Users />} />
         <Route path={PATHS.ANIMES_DOWNLOADER} element={<AnimesDownloader />} />
         <Route path={PATHS.DIRECTORY} element={<Directory/>}/>

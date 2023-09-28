@@ -78,12 +78,14 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
                         if (reproductorType === 1) {
                           navigate(`/episodio/reproducir/${next.id}`);
                         }
+                        console.log(next.id)
                         cambiarCapitulo(next.id)
                       }}>
                         <img src={`${URL_IMAGENES}${next.imageUrl}`} className='episodes_Info_Reproductor_img' />
                         <span className='PlayEpisode'><AiOutlinePlayCircle size={50} /></span>
                       </div>
                       <div>
+                        <p>{next.animeTitle}</p>
                         <p>{next.episodeTitle}</p>
                       </div>
                     </div>

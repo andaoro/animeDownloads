@@ -28,19 +28,6 @@ const Header: React.FC = () => {
         }
     }, [])
 
-    const limpiarPlaylist = () => {
-        axios.put(`/playlist/clear`, {}, {
-            headers: {
-                Authorization: `Bearer ${user.accessToken}`
-            }
-        }).then((response) => {
-            if (response.data.success) {
-                alert('Playlist Limpiada con exito')
-            }
-        }).catch((err) => {
-            console.error(err)
-        })
-    }
 
     const SectionsMenuHeader = ({ children }: { children: React.ReactNode }) => {
         return (
@@ -89,7 +76,7 @@ const Header: React.FC = () => {
                                                 <span className='px-3 text-xs text-sky-50/75'>Administrador</span>
                                             </div>
 
-                                            <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6' onClick={() => { navigate('/playlist') }}>
+                                            <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6' onClick={() => { navigate(PATHS.PLAYLIST_LOBBY) }}>
                                                 <span className='mr-6'><MdPlaylistPlay size={28} /></span>
                                                 <span className=''>Playlist</span>
                                             </div>

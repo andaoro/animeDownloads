@@ -156,13 +156,17 @@ const HomeScreen: React.FC = () => {
             <section className="hidden lg:inline py-8">
               <div className="mx-4 py-4 bg-navbar box-border">
                 <h2 className="px-4 font-bold text-principal">ULTIMOS ANIMES AGREGADOS</h2>
-                <div className="flex flex-col ">
+                <ul className="flex flex-col ">
                   {
                     animesDownloadedArray.map((anime) => (
-                      <span key={anime.id} onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id", anime.id.toString())}`) }} className="truncate px-4 my-3 cursor-pointer hover:text-Rsecondary transition-all duration-300 w-[350px]">{anime.title}</span>
+                      <li 
+                        key={anime.id} 
+                        onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id", anime.id.toString())}`) }} 
+                        className="truncate px-4 my-3 cursor-pointer hover:text-Rsecondary transition-all duration-300 w-[350px]"
+                      >{anime.title}</li>
                     ))
                   }
-                </div>
+                </ul>
 
               </div>
             </section>
