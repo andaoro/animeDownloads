@@ -1,7 +1,7 @@
 import './styles.css'
 import axios from '../../utils/axios/axiosBase'
 import hertaLogo from '../../assets/gifs/herta-loading.gif'
-import logo from '../../assets/img/enderythead.png'
+import logo from '../../components/Icon/logo.svg'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
 import { useLocation, useNavigate } from 'react-router-dom'

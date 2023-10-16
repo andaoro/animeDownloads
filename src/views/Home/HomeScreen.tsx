@@ -11,6 +11,9 @@ import { AgregarAlerta } from "../../utils/Helpers"
 import { HomeCards } from "./HomeCards"
 import PATHS from "../../routers/CONSTPATHS"
 
+import { format, parseISO } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { NavigateEpisodes } from "../../utils/navigates/NavigateEpisodes"
 
 
 export interface IAnimesDownloadedProps {
@@ -34,7 +37,7 @@ const HomeScreen: React.FC = () => {
 
 
   useEffect(() => {
-    window.document.title = "EnderAnime"
+    window.document.title = "AniFlex"
   })
 
   useEffect(() => {
@@ -44,41 +47,6 @@ const HomeScreen: React.FC = () => {
     }
   }, [user])
 
-  /* useEffect(() => {
-    if (user && user.accessToken !== "" && pagenumber !== 0) {
-      window.addEventListener('scroll', handleScroll); // Agrega un event listener para detectar el scroll
-      return () => {
-        window.removeEventListener('scroll', handleScroll); // Elimina el event listener al desmontar el componente
-      };
-    }
-  }, [pagenumber, morePages]); */
-
-
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    // Si el scroll llega al final de la página, carga más datos
-    if (scrollTop + clientHeight >= scrollHeight) {
-      getDownloadedAnimeScroll();
-    }
-  };
-
-  const compareByEmissionDay = (a: any, b: any) => {
-
-    // Parsea las fechas en formato "YYYY-MM-DD"
-    let fa = a.emissionDate
-    let fb = b.emissionDate
-    const dateA = new Date(fa);
-    const dateB = new Date(fb);
-
-    // Compara las fechas
-    if (dateA < dateB) {
-      return -1;
-    } else if (dateA > dateB) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
 
   const getDownloadedAnimes = () => {
     axios.get(`/downloaded/?page=${pagenumber}`, {
@@ -103,29 +71,6 @@ const HomeScreen: React.FC = () => {
     })
   }
 
-  const getDownloadedAnimeScroll = () => {
-    if (morePages) {
-      axios.get(`/downloaded/?page=${pagenumber}`, {
-        headers: {
-          "Authorization": `Bearer ${user.accessToken}`
-        }
-      }).then((res) => {
-        if (res.status === 200) {
-          if (pagenumber !== res.data.totalPages - 1) {
-            setpagenumber(pagenumber + 1)
-          } else {
-            setmorePages(false)
-          }
-          setanimesDownloadedArray((prevData) => [...prevData, ...res.data.elements])
-          setisLoading(false)
-        }
-      }).catch((err) => {
-        alert("HA OCURRIDO UN ERROR")
-        console.error(err)
-      })
-    }
-  }
-
   const getAnimeDownloadedSeason = () => {
     axios.get('/downloaded/season', {
       headers: {
@@ -140,9 +85,19 @@ const HomeScreen: React.FC = () => {
     })
   }
 
+  const FormatedFecha = (fecha: string) => {
+    // Parsea la fecha en formato ISO
+    const fechaISO = parseISO(fecha);
+
+    // Formatea la fecha en el formato deseado (mes y día de la semana)
+    const fechaFormateada = format(fechaISO, 'EEEE dd MMMM', { locale: es });
+
+    return fechaFormateada;
+  }
+
   const ParamTitle = ({ text }: { text: string }) => {
     return (
-      <h1 className="text-3xl font-bold px-4 border-l-4 text-Tdefault">{text}</h1>
+      <h1 className="font-bold text-principal text-xl">{text}</h1>
     )
 
   }
@@ -152,51 +107,67 @@ const HomeScreen: React.FC = () => {
     <AppLayout>
       {
         !isLoading ? (
-          <div className="flex w-full justify-between">
-            <section className="hidden lg:inline py-8">
-              <div className="mx-4 py-4 bg-navbar box-border">
-                <h2 className="px-4 font-bold text-principal">ULTIMOS ANIMES AGREGADOS</h2>
-                <ul className="flex flex-col ">
+          <section className="w-screen px-4">
+            <article className="flex flex-col w-full gap-x-12 lg:flex-row">
+              <div className="lg:w-3/4">
+                <article className="block text-start w-full my-4">
+                  <ParamTitle text="Animes en emisión" />
+                </article>
+                <div className="max-h-[480px] overflow-y-scroll overflow-x-hidden">
                   {
-                    animesDownloadedArray.map((anime) => (
-                      <li 
-                        key={anime.id} 
-                        onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id", anime.id.toString())}`) }} 
-                        className="truncate px-4 my-3 cursor-pointer hover:text-Rsecondary transition-all duration-300 w-[350px]"
-                      >{anime.title}</li>
+                    animesDownloadedSeasonArray.map((anime, index) => (
+                      <div className="w-full relative h-36 mb-4 cursor-pointer group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
+                        <img
+                          src={`${URL_IMAGENES}${anime.imageUrl}`}
+                          alt={`banner ${anime.title}`}
+                          className="w-full object-cover h-36 brightness-50 opacity-70 rounded group-hover:brightness-90 group-hover:scale-105 transition-all"
+                        />
+
+                        <div className="absolute block bottom-2 mx-2">
+                          <p className="font-bold text-2xl w-96">{anime.title}</p>
+                          <p className="font-bold text-xl text-fuchsia-300">{anime.emissionDate ? `${FormatedFecha(anime.emissionDate)}` : ""}</p>
+                        </div>
+
+                      </div>
                     ))
                   }
-                </ul>
-
+                </div>
               </div>
-            </section>
-            <section className="lg:w-4/5 px-4">
-              <div className="flex py-8 items-center">
-                <ParamTitle text="Animes en emisión" />
-              </div>
-              <div className="flex flex-col justify-centers items-centergrid-cols-1 text-center sm:grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {
-                  animesDownloadedSeasonArray.map((anime, index) => (
-                    <HomeCards anime={anime} index={index} key={index} />
-                  ))
-                }
-              </div>
-
-              <hr className="my-4" />
-
-              <div className="flex py-8 items-center">
-                <ParamTitle text="Últimos animes agregados" />
-              </div>
-              <div className="flex flex-col justify-centers items-centergrid-cols-1 text-center sm:grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="lg:w-1/4">
+                <article className="block text-start w-full my-4">
+                  <ParamTitle text="Ultimos Animes Añadidos" />
+                </article>
                 {
                   animesDownloadedArray.map((anime, index) => (
-                    <HomeCards anime={anime} index={index} key={index} />
+                    <div className="block my-2 font-medium text-lg" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
+                      <span className="cursor-pointer hover:text-Rsecondary hover:underline transition-all mr-3">{anime.title}</span>
+                    </div>
                   ))
                 }
               </div>
-            </section>
+            </article>
 
-          </div>
+            <article className="mt-12">
+              <div>
+                <ParamTitle text="Animes Recomendados" />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 mt-6">
+                {
+                  animesDownloadedArray.map((anime, index) => (
+                    <div className="h-96 relative group cursor-pointer" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
+                      <img
+                        src={`${URL_IMAGENES}${anime.imageUrl}`}
+                        alt="Imagen de portada"
+                        className="w-full h-full brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
+                      />
+                      <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all">{anime.title}</span>
+                    </div>
+                  ))
+                }
+              </div>
+            </article>
+          </section>
 
         ) :
           (

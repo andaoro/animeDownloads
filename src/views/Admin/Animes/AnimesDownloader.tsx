@@ -51,8 +51,8 @@ export const AnimesDownloader: React.FC = () => {
     const [remoteDataEpisodes, setRemoteDataEpisodes] = useState<IRemoteDataEpisodes | null>(null)
     const [loadingData, setloadingData] = useState(false)
     const [downloadOption, setdownloadOption] = useState('')
-    const [downloadOptionSelected, setdownloadOptionSelected] = useState(0)
-    const [opcionDescarga, setopcionDescarga] = useState('1')
+    const [downloadOptionSelected, setdownloadOptionSelected] = useState(99)
+    const [opcionDescarga, setopcionDescarga] = useState('2')
     const [remoteDataAnime, setremoteDataAnime] = useState<IRemoteDataAnime | null>(null)
     const [LoadingAnimeData, setLoadingAnimeData] = useState(false)
     const { user } = useContext(UserContext)
@@ -77,7 +77,7 @@ export const AnimesDownloader: React.FC = () => {
                 setremoteDataAnime({...response.data,downloadOptions:downloadOptionProvider})
             }).catch((err) => {
                 AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
-                console.log(err)
+                console.error(err)
             }).finally(() => {
                 setloadingData(false)
             })
@@ -96,7 +96,7 @@ export const AnimesDownloader: React.FC = () => {
                 setRemoteDataEpisodes(response.data)
             }).catch((err) => {
                 AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
-                console.log(err)
+                console.error(err)
             }).finally(() => {
                 setloadingData(false)
             })
@@ -155,7 +155,7 @@ export const AnimesDownloader: React.FC = () => {
             }
         }).catch((err)=>{
             AgregarAlerta(createNewAlert, "Ha ocurrido un error", 'danger')
-            console.log(err)
+            console.error(err)
         }).finally(()=>{
             setloadingData(false)
         })
@@ -184,7 +184,6 @@ export const AnimesDownloader: React.FC = () => {
         setopcionDescarga('1')
     }
 
-    console.log(remoteDataAnime)
     return (
         <AppLayout>
             <section className='mt-12 flex flex-col w-screen px-32 gap-6'>

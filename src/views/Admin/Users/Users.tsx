@@ -85,7 +85,7 @@ export const Users: React.FC = () => {
       .then(({ data }: { data: IDataUsers }) => {
         setUsuarios(data.elements)
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   }
 
@@ -142,7 +142,7 @@ export const Users: React.FC = () => {
           setPassword('')
           setModalVisible(false)
         }).catch((err) => {
-          console.log(err)
+          console.error(err)
         })
       } else {
         AgregarAlerta(createNewAlert, "Password es requerido", 'warning')

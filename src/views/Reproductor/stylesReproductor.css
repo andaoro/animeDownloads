@@ -121,3 +121,7 @@
         flex-direction: column;
     }
 }
+
+.Rhigh{
+    height: calc(100vh - 120px);
+}

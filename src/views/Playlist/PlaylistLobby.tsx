@@ -48,7 +48,6 @@ export const PlaylistLobby: React.FC = () => {
         setisLoadingPLaylist(true)
         try {
             const playlist = await axios.get('/playlist', { headers: { Authorization: `Bearer ${user.accessToken}` } })
-            console.log(playlist)
             setplaylist_items(playlist.data.episodes)
         } catch (error) {
             console.error(error)
