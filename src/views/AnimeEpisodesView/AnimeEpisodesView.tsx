@@ -161,6 +161,8 @@ export const AnimeEpisodesView: React.FC = () => {
         })
     }
 
+    console.log(episodes)
+
     return (
         <AppLayout>
             {
@@ -215,6 +217,12 @@ export const AnimeEpisodesView: React.FC = () => {
                                                 {
                                                     (user.userType == "admin") && (
                                                         <p onClick={() => { agregarCapituloPlaylist(episode.id) }} title='Agregar a playlist' className='absolute top-2 right-2 bg-gray-800 p-2'><MdAdd size={20} /></p>
+                                                    )
+                                                }
+
+                                                {
+                                                    episode.completed && (
+                                                        <span className='bg-black px-2 py-1 absolute bottom-1 right-2 font-medium text-sm'>Visto</span>
                                                     )
                                                 }
                                             </div>

@@ -2,22 +2,24 @@ import './styles.css'
 import axios from '../../utils/axios/axiosBase'
 import hertaLogo from '../../assets/gifs/herta-loading.gif'
 import logo from '../../components/Icon/logo.svg'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { MdPlaylistPlay, MdOutlinePlaylistRemove, MdFavorite, MdList, MdOutlineExitToApp, MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import { BsFillCollectionPlayFill } from "react-icons/bs";
+import { BsFillCollectionPlayFill, BsSearch } from "react-icons/bs";
 import { AiOutlineSearch } from "react-icons/ai"
 import PATHS from '../../routers/CONSTPATHS'
 
 const Header: React.FC = () => {
     const { user, setUser } = useContext(UserContext)
     const [viewOptionsUser, setviewOptionsUser] = useState(false)
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
+    const [text_buscar, settext_buscar] = useState('')
     const navigate = useNavigate()
     let userData: string | null = localStorage.getItem('UserInfo')
     let usuario: IDataUserProps;
+    const previousTextBuscarRef = useRef(text_buscar);
 
     useEffect(() => {
         if (userData) {
@@ -28,6 +30,25 @@ const Header: React.FC = () => {
         }
     }, [])
 
+    useEffect(() => {
+        let timer: any;
+
+        if (text_buscar !== previousTextBuscarRef.current) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+            previousTextBuscarRef.current = text_buscar;
+            if (text_buscar !== "" && user.accessToken.toString() !== "") {
+                Buscador()
+            }
+        }, 1400);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [text_buscar]);
+
 
     const SectionsMenuHeader = ({ children }: { children: React.ReactNode }) => {
         return (
@@ -37,13 +58,36 @@ const Header: React.FC = () => {
         )
     }
 
+    const Buscador = async () => {
+        try {
+            const data = await axios.get(`/downloaded/search?q=${text_buscar}&page=0`, {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`
+                }
+            })
+            console.log(data)
+        } catch (error) {
+
+        }
+    }
+
     return (
         <header className=' bg-navbar z-50 border-b-2 border-b-white'>
             <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} className='hidden md:inline' onClick={() => { navigate(PATHS.HOME) }} />
 
             <div className='flex justify-center w-full md:w-auto md:justify-normal gap-x-12 md:relative z-20'>
-                <span onClick={()=>{navigate(PATHS.HOME)}} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.HOME && 'text-Tsecondary'}`}>Inicio</span>
-                <span onClick={()=>{navigate(PATHS.DIRECTORY)}} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.DIRECTORY && 'text-Tsecondary'}`}>Directorio</span>
+                <span onClick={() => { navigate(PATHS.HOME) }} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.HOME && 'text-Tsecondary'}`}>Inicio</span>
+                <span onClick={() => { navigate(PATHS.DIRECTORY) }} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.DIRECTORY && 'text-Tsecondary'}`}>Directorio</span>
+                {/* <article className='relative flex md:border-2 border-gray-500 rounded-xl px-3 py-1 items-center'>
+                    <input
+                        type='text'
+                        className='bg-transparent outline-none hidden md:inline-block'
+                        placeholder='Buscar...'
+                        value={text_buscar}
+                        onChange={(e) => settext_buscar(e.target.value)}
+                    />
+                    <span className='cursor-pointer'><BsSearch size={20} /></span>
+                </article> */}
                 {/* <label className='hidden md:flex justify-center items-center relative bg-sky-950 rounded-xl px-2 py-1'>
                     <input type='text' placeholder='Buscar...' className='bg-transparent outline-none px-2 text-blue-100 placeholder:text-blue-300'/>
                     <span className=''><AiOutlineSearch size={20} /></span>

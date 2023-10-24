@@ -5,8 +5,10 @@ import UserContext from '../../Context/UserContext'
 import axios from "../../utils/axios/axiosBase"
 import { ReproductorLayout } from '../../components/ReproductorLayout/ReproductosLayout'
 import { AppLayout } from '../../components/AppLayout/AppLayout'
-import { URL_IMAGENES } from '../../utils/Helpers'
+import { AgregarAlerta, URL_IMAGENES } from '../../utils/Helpers'
 import { NavigateEpisodes, NavigateReproductor } from '../../utils/navigates/NavigateEpisodes'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { useAlerts } from '../../hooks/useAlerts'
 
 export interface IDataNextPrev {
   animeId: number,
@@ -26,6 +28,7 @@ export interface ICapInfo {
   next: IDataNextPrev
   previous: IDataNextPrev
   animeId: number
+  completed:boolean
 }
 
 export const Reproductor: React.FC = () => {
@@ -36,6 +39,8 @@ export const Reproductor: React.FC = () => {
   const [next, setnext] = useState<IDataNextPrev | null>(null)
   const [prev, setprev] = useState<IDataNextPrev | null>(null)
   const baseURL = import.meta.env.VITE_BASE_URL_MEDIA || ''
+  const {alertas,createNewAlert} = useAlerts()
+  const [isEpisodeView, setisEpisodeView] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
@@ -60,7 +65,7 @@ export const Reproductor: React.FC = () => {
     if (user && user.accessToken !== "") {
       consultarDetallesCapitulo(id)
     }
-  }, [user,id])
+  }, [user, id])
 
 
   const consultarDetallesCapitulo = (id: string | undefined | number) => {
@@ -71,6 +76,8 @@ export const Reproductor: React.FC = () => {
         }
       }).then((response) => {
         setcapituloInfo(response.data)
+        setisEpisodeView(response.data.completed)
+        console.log(response.data)
         window.document.title = `${response.data.animeTitle} ${response.data.episodeTitle}`
         if (response.data.next) {
           setnext(response.data.next)
@@ -89,6 +96,21 @@ export const Reproductor: React.FC = () => {
     consultarDetallesCapitulo(idcap)
   }
 
+  const agregar_visto = async () => {
+    try {
+      await axios.patch(`/episode/${id}?completed=${!capituloInfo.completed}`, {}, {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        }
+      })
+      setisEpisodeView(!isEpisodeView)
+    } catch (error) {
+      AgregarAlerta(createNewAlert,"Ha ocurrido un error",'danger')
+    }
+
+  }
+
+  console.log(isEpisodeView)
 
   return (
 
@@ -127,15 +149,16 @@ export const Reproductor: React.FC = () => {
         </section>
         <section className='md:w-2/6 md:mr-12 mt-16'>
           <div className='w-full mt-12'>
-            <article className='flex w-full justify-around'>
+            <article className='flex w-full justify-around gap-x-4'>
               <button onClick={() => { NavigateEpisodes(navigate, capituloInfo.animeId, capituloInfo.animeTitle) }} className='bg-principal w-40 py-2 rounded font-medium hover:bg-principal/70 transition-all'>Lista de capitulos</button>
-              <button onClick={()=>{navigate('/')}} className='bg-gray-800 w-40 py-2 rounded font-medium hover:bg-gray-700 transition-all'>Inicio</button>
+              <button onClick={agregar_visto} className='bg-gray-800 w-40 py-2 rounded font-medium hover:bg-gray-700 transition-all flex justify-center items-center'>{isEpisodeView ? <AiFillEye size={20} />:<AiFillEyeInvisible size={20}/> }</button>
+              <button onClick={() => { navigate('/') }} className='bg-gray-800 w-40 py-2 rounded font-medium hover:bg-gray-700 transition-all'>Inicio</button>
             </article>
           </div>
           <div className='flex flex-col mt-12 gap-10'>
             <article>
               {capituloInfo.next && (
-                <div onClick={()=>{NavigateReproductor(navigate,capituloInfo.next.id, capituloInfo.animeTitle)}} className=' hover:bg-navbar/95 p-4 cursor-pointer'>
+                <div onClick={() => { NavigateReproductor(navigate, capituloInfo.next.id, capituloInfo.animeTitle) }} className=' hover:bg-navbar/95 p-4 cursor-pointer'>
                   <span className='text-lg font-semibold'>Capitulo siguiente</span>
                   <div className='flex gap-x-4 pt-2'>
 
@@ -154,7 +177,7 @@ export const Reproductor: React.FC = () => {
               )}
 
               {capituloInfo.previous && (
-                <div onClick={()=>{NavigateReproductor(navigate,capituloInfo.previous.id, capituloInfo.animeTitle)}} className='mt-6 hover:bg-navbar/95 p-4 cursor-pointer'>
+                <div onClick={() => { NavigateReproductor(navigate, capituloInfo.previous.id, capituloInfo.animeTitle) }} className='mt-6 hover:bg-navbar/95 p-4 cursor-pointer'>
                   <span className='text-lg font-semibold'>Capitulo anterior</span>
                   <div className='flex gap-x-4 pt-2'>
 
@@ -175,6 +198,7 @@ export const Reproductor: React.FC = () => {
           </div>
         </section>
       </div>
+      {alertas}
     </AppLayout>
   )
 }

@@ -31,7 +31,7 @@ export const ReproductorLayout: React.FC<ReproductorProps> = ({
 
   const agregar_visto = async () => {
     try {
-      let data = await axios.patch(`/episode/${id}?completed=${true}`, {}, {
+      await axios.patch(`/episode/${id}?completed=${true}`, {}, {
         headers: {
           Authorization: `Bearer ${user.accessToken}`
         }
