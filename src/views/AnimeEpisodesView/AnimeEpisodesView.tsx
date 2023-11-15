@@ -91,7 +91,7 @@ export const AnimeEpisodesView: React.FC = () => {
             } else {
                 setmorePages(false)
             }
-            window.document.title = `ver ${response.data.object.title} ─ y`
+            window.document.title = `ver ${response.data.object.title}`
             setanimeData(response.data)
             setisLoadingDataEpisodes(false)
             setepisodes(response.data.elements)
@@ -204,11 +204,12 @@ export const AnimeEpisodesView: React.FC = () => {
                                 <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4'>
                                     {
                                         episodes.map((episode, index) => (
-                                            <div className='cursor-pointer relative' key={index} onClick={() => { NavigateReproductor(navigate, episode.id, animeData.object.title) }}>
+                                            <div className='cursor-pointer relative' key={index} >
                                                 <img
                                                     src={`${URL_IMAGENES}${episode.imageUrl}`}
                                                     alt={`imagen de capitulo ${episode.episodeTitle}`}
-                                                    className='w-full brightness-50 hover:brightness-100'
+                                                    className='w-full brightness-50 hover:brightness-100 h-52 object-cover'
+                                                    onClick={() => { NavigateReproductor(navigate, episode.id, animeData.object.title) }}
                                                 />
                                                 <article className='absolute bottom-2 mx-2'>
                                                     <p>{episode.episodeTitle}</p>

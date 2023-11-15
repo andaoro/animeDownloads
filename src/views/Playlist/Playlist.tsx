@@ -18,7 +18,6 @@ interface ICapActualPlaylist {
 
 export const Playlist: React.FC = () => {
     const { user } = useContext(UserContext)
-    const { id } = useParams()
     const [playlistData, setPlatlistData] = useState(null)
     const [capActualPlaylist, setCapActualPlaylist] = useState<ICapActualPlaylist | null>(null)
     const [nextEpisodePlaylist, setnextEpisodePlaylist] = useState<IDataNextPrev | null>(null)
@@ -42,16 +41,8 @@ export const Playlist: React.FC = () => {
                     Authorization: `Bearer ${user.accessToken}`
                 }
             }).then((playlist) => {
-                setPlatlistData(playlist.data)
                 setloadingData(false)
-                if (playlist.data.episodes.length !== 0) {
-                    let data = playlist.data.episodes.find((item: ICapActualPlaylist) => {
-                        if (id) {
-                            return item.id == parseInt(id?.toString())
-                        }
-                    })
-                    setCapActualPlaylist(data)
-                }
+                setCapActualPlaylist(playlist.data.episodes[0])
             }).catch((err) => {
                 console.error(err)
             })

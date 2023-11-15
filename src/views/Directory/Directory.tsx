@@ -79,7 +79,7 @@ export const Directory: React.FC = () => {
                                     <img
                                         src={`${URL_IMAGENES}${anime.imageUrl}`}
                                         alt="Imagen de portada"
-                                        className="w-full h-full brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
+                                        className="w-64 h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
                                     />
                                     <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all">{anime.title}</span>
                                 </div>

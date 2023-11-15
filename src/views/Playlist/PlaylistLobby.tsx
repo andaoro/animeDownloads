@@ -103,7 +103,7 @@ export const PlaylistLobby: React.FC = () => {
                     }
 
                     <div
-                        onClick={() => { navigate(PATHS.PLAYLIST.replace(":id", playlist_items[0].id.toString())) }}
+                        onClick={() => { navigate(PATHS.PLAYLIST) }}
                         className='flex gap-x-8 bg-Bsecondary py-2 w-56 rounded cursor-pointer hover:scale-105 transition-all items-center justify-center z-10'>
                         <span><BsPlayFill size={20} /></span>
                         <span>Empezar Playlist</span>

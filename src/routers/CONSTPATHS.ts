@@ -3,7 +3,7 @@ const PATHS = {
     LOGIN:'/login',
     EPISODES_VIEW:'/episodes/:anime_title/:id',
     PLAYER:'/episode/:anime_title/:id',
-    PLAYLIST:'/playlist/:id',
+    PLAYLIST:'/playlist',
     PLAYLIST_LOBBY:'/lobby/playlist',
     USERS:'/users',
     ANIMES_DOWNLOADER:'/animes_downloader',

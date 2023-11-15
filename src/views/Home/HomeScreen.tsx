@@ -113,7 +113,7 @@ const HomeScreen: React.FC = () => {
                 <article className="block text-start w-full my-4">
                   <ParamTitle text="Animes en emisión" />
                 </article>
-                <div className="max-h-[480px] overflow-y-scroll overflow-x-hidden">
+                <div className="max-h-[480px] overflow-y-scroll overflow-x-hidden scroll">
                   {
                     animesDownloadedSeasonArray.map((anime, index) => (
                       <div className="w-full relative h-36 mb-4 cursor-pointer group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
@@ -152,14 +152,14 @@ const HomeScreen: React.FC = () => {
                 <ParamTitle text="Animes Recomendados" />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 mt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-6">
                 {
                   animesDownloadedArray.map((anime, index) => (
                     <div className="h-96 relative group cursor-pointer" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
                       <img
                         src={`${URL_IMAGENES}${anime.imageUrl}`}
                         alt="Imagen de portada"
-                        className="w-full h-full brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
+                        className="w-full h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
                       />
                       <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all">{anime.title}</span>
                     </div>
