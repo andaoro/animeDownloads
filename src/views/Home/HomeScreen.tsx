@@ -14,6 +14,7 @@ import PATHS from "../../routers/CONSTPATHS"
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NavigateEpisodes } from "../../utils/navigates/NavigateEpisodes"
+import { FormatedFecha } from "../../helpers/Helpers"
 
 
 export interface IAnimesDownloadedProps {
@@ -85,16 +86,6 @@ const HomeScreen: React.FC = () => {
     })
   }
 
-  const FormatedFecha = (fecha: string) => {
-    // Parsea la fecha en formato ISO
-    const fechaISO = parseISO(fecha);
-
-    // Formatea la fecha en el formato deseado (mes y día de la semana)
-    const fechaFormateada = format(fechaISO, 'EEEE dd MMMM', { locale: es });
-
-    return fechaFormateada;
-  }
-
   const ParamTitle = ({ text }: { text: string }) => {
     return (
       <h1 className="font-bold text-principal text-xl">{text}</h1>
@@ -159,7 +150,7 @@ const HomeScreen: React.FC = () => {
                       <img
                         src={`${URL_IMAGENES}${anime.imageUrl}`}
                         alt="Imagen de portada"
-                        className="w-full h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
+                        className="w-full h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded object-cover"
                       />
                       <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all">{anime.title}</span>
                     </div>

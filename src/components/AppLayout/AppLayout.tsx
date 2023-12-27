@@ -6,7 +6,7 @@ export const AppLayout:React.FC<any> = ({children}) => {
   return (
     <div className='AppBody bg-default'>
         <Header/>
-        <div className=' pb-12 mt-[72px]'>
+        <div className=' pb-12 mt-[80px]'>
             {children}
         </div>
     </div>

@@ -1,25 +1,21 @@
 import './styles.css'
 import axios from '../../utils/axios/axiosBase'
-import hertaLogo from '../../assets/gifs/herta-loading.gif'
 import logo from '../../components/Icon/logo.svg'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import UserContext, { IDataUserProps } from '../../Context/UserContext'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { MdPlaylistPlay, MdOutlinePlaylistRemove, MdFavorite, MdList, MdOutlineExitToApp, MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
-import { FaUsers } from "react-icons/fa";
-import { BsFillCollectionPlayFill, BsSearch } from "react-icons/bs";
+import { MdOutlineArrowDropDown, MdOutlineArrowDropUp } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai"
 import PATHS from '../../routers/CONSTPATHS'
+import { UserOptions } from './UserOptions'
 
 const Header: React.FC = () => {
     const { user, setUser } = useContext(UserContext)
     const [viewOptionsUser, setviewOptionsUser] = useState(false)
     const { pathname } = useLocation()
-    const [text_buscar, settext_buscar] = useState('')
     const navigate = useNavigate()
     let userData: string | null = localStorage.getItem('UserInfo')
     let usuario: IDataUserProps;
-    const previousTextBuscarRef = useRef(text_buscar);
 
     useEffect(() => {
         if (userData) {
@@ -30,136 +26,32 @@ const Header: React.FC = () => {
         }
     }, [])
 
-    useEffect(() => {
-        let timer: any;
-
-        if (text_buscar !== previousTextBuscarRef.current) {
-            clearTimeout(timer);
-        }
-
-        timer = setTimeout(() => {
-            previousTextBuscarRef.current = text_buscar;
-            if (text_buscar !== "" && user.accessToken.toString() !== "") {
-                Buscador()
-            }
-        }, 1400);
-
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [text_buscar]);
-
-
-    const SectionsMenuHeader = ({ children }: { children: React.ReactNode }) => {
-        return (
-            <section className=' border-t-2 py-2 border-Tdefault'>
-                {children}
-            </section>
-        )
-    }
-
-    const Buscador = async () => {
-        try {
-            const data = await axios.get(`/downloaded/search?q=${text_buscar}&page=0`, {
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`
-                }
-            })
-            console.log(data)
-        } catch (error) {
-
-        }
-    }
+    
 
     return (
         <header className=' bg-navbar z-50 border-b-2 border-b-white'>
-            <img src={logo} alt='Logo' style={{ width: '40px', cursor: 'pointer' }} className='hidden md:inline' onClick={() => { navigate(PATHS.HOME) }} />
+            <div className='flex gap-x-10 items-center'>
+                <img src={logo} alt='Logo' className='hidden md:inline w-12 cursor-pointer hover:brightness-75' onClick={() => { navigate(PATHS.HOME) }} />
+                <span onClick={() => { navigate(PATHS.DIRECTORY) }} className={`hidden md:flex text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.DIRECTORY && 'text-Tsecondary'}`}>Directorio</span>
+            </div>
+
 
             <div className='flex justify-center w-full md:w-auto md:justify-normal gap-x-12 md:relative z-20'>
-                <span onClick={() => { navigate(PATHS.HOME) }} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.HOME && 'text-Tsecondary'}`}>Inicio</span>
-                <span onClick={() => { navigate(PATHS.DIRECTORY) }} className={` text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.DIRECTORY && 'text-Tsecondary'}`}>Directorio</span>
-                {/* <article className='relative flex md:border-2 border-gray-500 rounded-xl px-3 py-1 items-center'>
-                    <input
-                        type='text'
-                        className='bg-transparent outline-none hidden md:inline-block'
-                        placeholder='Buscar...'
-                        value={text_buscar}
-                        onChange={(e) => settext_buscar(e.target.value)}
-                    />
-                    <span className='cursor-pointer'><BsSearch size={20} /></span>
-                </article> */}
-                {/* <label className='hidden md:flex justify-center items-center relative bg-sky-950 rounded-xl px-2 py-1'>
-                    <input type='text' placeholder='Buscar...' className='bg-transparent outline-none px-2 text-blue-100 placeholder:text-blue-300'/>
-                    <span className=''><AiOutlineSearch size={20} /></span>
-                </label> */}
+                <div>
+                    <span
+                        className='hover:bg-slate-600 cursor-pointer flex rounded-full p-3 transition-all'
+                        onClick={()=>{navigate(PATHS.SEARCH)}}
+                    >
+                        <AiOutlineSearch size={25} />
+                    </span>
+                </div>
                 <div onClick={() => { setviewOptionsUser(!viewOptionsUser) }} className='flex items-center cursor-pointer'>
                     <span className='userName font-bold' >{user?.username}</span>
                     <span className='ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>
                 </div>
                 {
                     viewOptionsUser && (
-
-                        <div className='absolute w-screen h-screen left-0 top-16 md:top-12 md:left-auto md:right-0 md:w-96 md:h-auto '>
-                            <div className='w-full h-full bg-navbar relative'>
-                                <div>
-                                    <div className='flex px-3 py-6'>
-                                        <figure className='bg-Rsecondary rounded-full mr-6 p-2 flex items-center justify-center'>
-                                            <img src={hertaLogo} alt='imagen perfil usuario' className='w-8' />
-                                        </figure>
-                                        <div>
-                                            <p className='capitalize text-bold'>{user.username}</p>
-                                            <p className='text-Rsecondary'>{user.userType !== "admin" ? "Miembro" : "Usuario Administrador"}</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                {
-                                    user.userType == "admin" && (
-                                        <SectionsMenuHeader>
-                                            <div className='py-2'>
-                                                <span className='px-3 text-xs text-sky-50/75'>Administrador</span>
-                                            </div>
-
-                                            <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6' onClick={() => { navigate(PATHS.PLAYLIST_LOBBY) }}>
-                                                <span className='mr-6'><MdPlaylistPlay size={28} /></span>
-                                                <span className=''>Playlist</span>
-                                            </div>
-                                            <div className='flex items-center w-full hover:bg-Rsecondary text-Tdefault  py-4 cursor-pointer px-6' onClick={() => { navigate('/users') }}>
-                                                <span className='mr-6'><FaUsers size={28} /></span>
-                                                <span>Usuarios</span>
-                                            </div>
-                                            <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6' onClick={() => { navigate('/animes_downloader') }}>
-                                                <span className='mr-6'><BsFillCollectionPlayFill size={28} /></span>
-                                                <span>Animes</span>
-                                            </div>
-                                        </SectionsMenuHeader>
-                                    )
-                                }
-                                <SectionsMenuHeader>
-                                    <div className='py-2'>
-                                        <span className='px-3 text-xs text-sky-50/75'>Opciones</span>
-                                    </div>
-                                    <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdFavorite size={28} /></span>
-                                        <span>Favoritos</span>
-                                    </div>
-                                    <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdList size={28} /></span>
-                                        <span>Listas</span>
-                                    </div>
-                                </SectionsMenuHeader>
-
-                                <div className='absolute bottom-16 w-full border-t-2 border-Tdefault md:static' onClick={() => {
-                                    localStorage.removeItem('UserInfo')
-                                    window.location.reload()
-                                }}>
-                                    <div className='flex items-center w-full hover:bg-Rsecondary py-4 cursor-pointer px-6'>
-                                        <span className='mr-6'><MdOutlineExitToApp size={28} /></span>
-                                        <span >Cerrar sesión</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <UserOptions user={user} />
                     )
                 }
             </div>

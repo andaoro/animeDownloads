@@ -11,6 +11,7 @@ import { AnimesDownloader } from '../views/Admin/Animes/AnimesDownloader';
 import PATHS from './CONSTPATHS';
 import { Directory } from '../views/Directory/Directory';
 import { Playlist } from '../views/Playlist/Playlist';
+import { Search } from '../views/Search/Search';
 
 // Componente de página de error 404
 
@@ -28,6 +29,7 @@ export const MainRouters = () => {
         <Route path={PATHS.USERS} element={<Users />} />
         <Route path={PATHS.ANIMES_DOWNLOADER} element={<AnimesDownloader />} />
         <Route path={PATHS.DIRECTORY} element={<Directory/>}/>
+        <Route path={PATHS.SEARCH} element={<Search/>}/>
 
         {/* Ruta de fallback para manejar páginas no encontradas */}
         <Route path="*" element={<NotFound />} />

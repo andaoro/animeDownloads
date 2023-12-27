@@ -7,7 +7,8 @@ const PATHS = {
     PLAYLIST_LOBBY:'/lobby/playlist',
     USERS:'/users',
     ANIMES_DOWNLOADER:'/animes_downloader',
-    DIRECTORY:'/directory'
+    DIRECTORY:'/directory',
+    SEARCH:'/search'
 }
 
 export const NAVIGATEPATHS ={
