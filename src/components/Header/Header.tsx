@@ -29,25 +29,25 @@ const Header: React.FC = () => {
     
 
     return (
-        <header className=' bg-navbar z-50 border-b-2 border-b-white'>
-            <div className='flex gap-x-10 items-center'>
-                <img src={logo} alt='Logo' className='hidden md:inline w-12 cursor-pointer hover:brightness-75' onClick={() => { navigate(PATHS.HOME) }} />
+        <header className='z-50 border-b-2 bg-navbar border-b-white'>
+            <div className='flex items-center lg:gap-x-10'>
+                <img src={logo} alt='Logo' className='w-12 cursor-pointer md:inline hover:brightness-75' onClick={() => { navigate(PATHS.HOME) }} />
                 <span onClick={() => { navigate(PATHS.DIRECTORY) }} className={`hidden md:flex text-lg cursor-pointer font-bold text-Tsecondary hover:text-Tdefault ${pathname == PATHS.DIRECTORY && 'text-Tsecondary'}`}>Directorio</span>
             </div>
 
 
-            <div className='flex justify-center w-full md:w-auto md:justify-normal gap-x-12 md:relative z-20'>
+            <div className='z-20 flex justify-center w-full gap-4 md:w-auto md:justify-normal lg:gap-x-12 md:relative'>
                 <div>
                     <span
-                        className='hover:bg-slate-600 cursor-pointer flex rounded-full p-3 transition-all'
+                        className='flex p-3 transition-all rounded-full cursor-pointer hover:bg-slate-600'
                         onClick={()=>{navigate(PATHS.SEARCH)}}
                     >
                         <AiOutlineSearch size={25} />
                     </span>
                 </div>
                 <div onClick={() => { setviewOptionsUser(!viewOptionsUser) }} className='flex items-center cursor-pointer'>
-                    <span className='userName font-bold' >{user?.username}</span>
-                    <span className='ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>
+                    <span className='font-bold userName' >{user?.username}</span>
+                    <span className='lg:ml-2'>{viewOptionsUser ? <MdOutlineArrowDropUp size={22} /> : <MdOutlineArrowDropDown size={22} />}</span>
                 </div>
                 {
                     viewOptionsUser && (
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
             </div>
             {
                 viewOptionsUser && (
-                    <div className='absolute h-screen w-screen top-0 left-0 bg-navbar/70 z-10' onClick={() => { setviewOptionsUser(false) }}></div>
+                    <div className='absolute top-0 left-0 z-10 w-screen h-screen bg-navbar/70' onClick={() => { setviewOptionsUser(false) }}></div>
                 )
             }
         </header>
