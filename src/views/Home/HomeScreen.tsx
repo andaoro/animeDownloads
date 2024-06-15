@@ -15,6 +15,7 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NavigateEpisodes } from "../../utils/navigates/NavigateEpisodes"
 import { FormatedFecha } from "../../helpers/Helpers"
+import { FaPlay } from "react-icons/fa"
 
 
 export interface IAnimesDownloadedProps {
@@ -98,7 +99,7 @@ const HomeScreen: React.FC = () => {
     <AppLayout>
       {
         !isLoading ? (
-          <section className="w-screen px-4">
+          <section className="w-screen px-4 pb-6">
             <article className="flex flex-col w-full gap-x-12 lg:flex-row">
               <div className="lg:w-3/4">
                 <article className="block w-full my-4 text-start">
@@ -107,7 +108,7 @@ const HomeScreen: React.FC = () => {
                 <div className="max-h-[480px] overflow-y-scroll overflow-x-hidden scroll">
                   {
                     animesDownloadedSeasonArray.map((anime, index) => (
-                      <div className="relative w-full mb-4 cursor-pointer h-36 group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
+                      <div className="relative w-full mb-4 cursor-pointer h-36 group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
                         <img
                           src={`${URL_IMAGENES}${anime.imageUrl}`}
                           alt={`banner ${anime.title}`}
@@ -124,17 +125,30 @@ const HomeScreen: React.FC = () => {
                   }
                 </div>
               </div>
-              <div className="hidden lg:block lg:w-1/4">
+              <div className="hidden lg:block lg:w-1/4 ">
                 <article className="block w-full my-4 text-start">
                   <ParamTitle text="Ultimos Animes Añadidos" />
                 </article>
-                {
-                  animesDownloadedArray.map((anime, index) => (
-                    <div className="block my-2 text-lg font-medium" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
-                      <span className="mr-3 transition-all cursor-pointer hover:text-Rsecondary hover:underline">{anime.title}</span>
-                    </div>
-                  ))
-                }
+                <div className="max-h-[480px] overflow-y-scroll overflow-x-hidden scroll">
+                  {
+                    animesDownloadedArray.map((anime, index) => (
+                      <div className="block my-2 text-lg font-medium" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
+                        <span className="flex items-center mr-3 truncate transition-all cursor-pointer hover:text-Rsecondary hover:underline gap-x-2">
+                          <span><FaPlay size={12} /></span>
+                          {anime.title}
+                        </span>
+                      </div>
+                    ))
+                  }
+
+                  <span
+                    onClick={()=>{navigate(PATHS.DIRECTORY)}}
+                    className="text-center underline duration-300 cursor-pointer hover:text-gray-300"
+                  >
+                    Ver mas ...
+                  </span>
+                </div>
+
               </div>
             </article>
 
@@ -146,7 +160,7 @@ const HomeScreen: React.FC = () => {
               <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {
                   animesDownloadedArray.map((anime, index) => (
-                    <div className="relative cursor-pointer h-96 group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id,anime.title) }}>
+                    <div className="relative cursor-pointer h-96 group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
                       <img
                         src={`${URL_IMAGENES}${anime.imageUrl}`}
                         alt="Imagen de portada"

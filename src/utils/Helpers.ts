@@ -1,5 +1,5 @@
-import qiqiImage from '../assets/img/qiqiwebp.webp'
-import hu_tao_error from '../assets/img/hu_tao_error.png'
+import qiqiImage from '../assets/img/toast/qiqiwebp.webp'
+import hu_tao_error from '../assets/img/toast/hu_tao_error.png'
 
 export const URLAPI = "https://animedownloader.jmarango.co/api"
 export const URL_IMAGENES = import.meta.env.VITE_BASE_URL_MEDIA || ''

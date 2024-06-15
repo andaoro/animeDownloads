@@ -43,7 +43,7 @@
     border: none;
     color: #fff;
     font: inherit;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     position: relative;
     width: 100%;
     outline: none;
@@ -87,6 +87,13 @@ label{
     border: none;
     color: white;
     cursor: pointer;
+    border-radius: 4px;
+    transition: 0.5s;
+}
+
+.btnAcceder:hover{
+    background-color: #064b76;
+
 }
 
 

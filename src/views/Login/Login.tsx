@@ -13,7 +13,7 @@ const Login = () => {
     const [password, setpassword] = useState('')
     const [viewPassword, setviewPassword] = useState(false)
     const [errosMessage, setErrorMessage] = useState('')
-    const {alertas, createNewAlert} = useAlerts()
+    const { alertas, createNewAlert } = useAlerts()
     const navigate = useNavigate()
 
     let userData: string | null = localStorage.getItem('UserInfo')
@@ -60,14 +60,14 @@ const Login = () => {
                     localStorage.setItem("UserInfo", JSON.stringify(response.data))
                     navigate("/home")
                 } else {
-                    AgregarAlerta(createNewAlert,"Ha ocurrido un error inesperado","danger")
+                    AgregarAlerta(createNewAlert, "Ha ocurrido un error inesperado", "danger")
                 }
             }).catch((err) => {
                 console.error(err)
                 if (err.response.status == 401) {
-                    AgregarAlerta(createNewAlert,"Usuario o contraseña incorrectos",'warning')
+                    AgregarAlerta(createNewAlert, "Usuario o contraseña incorrectos", 'warning')
                 } else {
-                    AgregarAlerta(createNewAlert,"Error",'danger')
+                    AgregarAlerta(createNewAlert, "Error", 'danger')
 
                 }
             })
@@ -79,8 +79,15 @@ const Login = () => {
     return (
         <div className='ContainerBody'>
             <div className='ContainerForm'>
-                <h1 className=' text-center text-4xl mb-6'>Acceder</h1>
                 <div className='FormBody'>
+                    <section>
+                        <img
+                            src='/logo.svg'
+                            className='w-32 h-32'
+                        />
+                        <h2 className='text-3xl italic font-bold tracking-widest text-center text-Rsecondary'>Aniflex</h2>
+                    </section>
+
                     <div className={`ContainerInput ${usernameFocused && "ContainerInput--focus"}`}>
                         <label>
                             <div className={`inputTextWrap ${usernameFocused && "inputTextFocused"}`}>

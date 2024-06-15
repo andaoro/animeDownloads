@@ -77,16 +77,22 @@ export const Users: React.FC = () => {
   }, [dataUserUpdate])
 
   const ConsultarUsuarios = () => {
-    axios.get('/users', {
-      headers: {
-        Authorization: `Bearer ${user.accessToken}`
-      }
-    })
-      .then(({ data }: { data: IDataUsers }) => {
-        setUsuarios(data.elements)
-      }).catch((err) => {
-        console.error(err)
+    setUsuarios([])
+    try {
+      axios.get('/users', {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        }
       })
+        .then(({ data }: { data: IDataUsers }) => {
+          setUsuarios(data.elements)
+        }).catch((err) => {
+          console.error(err)
+        })
+    } catch (error) {
+      AgregarAlerta(createNewAlert, `${error}`, 'danger')
+    }
+
   }
 
   const CambiarEstadoUsuario = async (estadoActual: boolean, id: number) => {
@@ -169,8 +175,8 @@ export const Users: React.FC = () => {
           if (usuario.id === dataUserUpdate.id) {
             return {
               ...usuario,
-              username:userName,
-              type:tipoUsuario
+              username: userName,
+              type: tipoUsuario
             };
           }
           return usuario;
@@ -183,7 +189,7 @@ export const Users: React.FC = () => {
     })
   }
 
-  const limpiarDatosModal = () =>{
+  const limpiarDatosModal = () => {
     setuserName('')
     setPassword('')
     settipoUsuario('default')
@@ -193,14 +199,14 @@ export const Users: React.FC = () => {
 
   return (
     <AppLayout>
-      <h1 className='text-3xl font-bold text-center py-6'>Administrador De usuarios</h1>
-      <section className='mx-14 mb-6 w-auto flex flex-col gap-y-4 sm:gap-x-20 sm:flex-row'>
+      <h1 className='py-6 text-3xl font-bold text-center'>Administrador De usuarios</h1>
+      <section className='flex flex-col w-auto mb-6 mx-14 gap-y-4 sm:gap-x-20 sm:flex-row'>
         <span onClick={() => {
           limpiarDatosModal()
           setModalVisible(true)
 
-        }} className='bg-green-600 cursor-pointer flex  justify-center items-center p-2 rounded gap-x-4'><AiOutlineUserAdd size={28} /><span>Crear Usuario</span></span>
-        <span className='bg-sky-800 cursor-pointer flex  justify-center items-center p-2 rounded gap-x-4' onClick={ConsultarUsuarios}><AiOutlineReload size={28} /><span>Recargar Lista</span></span>
+        }} className='flex items-center justify-center p-2 bg-green-600 rounded cursor-pointer gap-x-4'><AiOutlineUserAdd size={28} /><span>Crear Usuario</span></span>
+        <span className='flex items-center justify-center p-2 rounded cursor-pointer bg-sky-800 gap-x-4' onClick={ConsultarUsuarios}><AiOutlineReload size={28} /><span>Recargar Lista</span></span>
       </section>
 
       <TablaResponsive data={data} estado={CambiarEstadoUsuario} setdataUserUpdate={setdataUserUpdate} />
