@@ -11,8 +11,8 @@
 
 .controls {
     position: absolute;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -41,12 +41,10 @@
     margin-left: auto;
 }
 
-/* ESTILOS PERSONALIZDOS INPUT RANGE DE BARRA DE PROGRESO*/
-
 .seek-slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 5px;
+    height: 3px;
     appearance: none;
     outline: none;
     margin: 5px 0;
@@ -54,27 +52,33 @@
     cursor: pointer;
 }
 
-
 .seek-slider::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #ff9900 0%, #ff9900 calc(100% * var(--range-value)), #ddd calc(100% * var(--range-value)), #ddd 100%);
+    background: linear-gradient(to right,
+            #ff9900 0%,
+            #ff9900 calc(100% * var(--range-value)),
+            #ddd calc(100% * var(--range-value)),
+            #ddd calc(100% * var(--loaded-value)),
+            #484444 calc(100% * var(--loaded-value)),
+            #484444 100%);
     border-radius: 20px;
-    height: 5px;
+    height: 3px;
 }
+
 
 .seek-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 15px;
-    height: 15px;
     background: #d88200;
     border-radius: 50%;
     cursor: pointer;
-    margin-top: -5px;
+    margin-top: -3px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
 
-
-/* ESTILOS PERSONALIZDOS INPUT RANGE DE VOLUMEN */
+.seek-slider:hover::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+}
 
 .volume-slider {
     width: 100%;
@@ -87,13 +91,11 @@
     cursor: pointer;
 }
 
-
 .volume-slider::-webkit-slider-runnable-track {
     background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF calc(100% * var(--range-valueV)), #a9a9a9 calc(100% * var(--range-valueV)), #a9a9a9 100%);
     border-radius: 20px;
     height: 3px;
 }
-
 
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -105,4 +107,17 @@
     cursor: pointer;
     margin-top: -5px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.seek-slider-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    left: var(--position-tooltip);
 }
