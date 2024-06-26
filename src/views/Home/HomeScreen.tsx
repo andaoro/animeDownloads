@@ -65,9 +65,14 @@ const HomeScreen: React.FC = () => {
         setanimesDownloadedArray(res.data.elements)
       }
     }).catch((err) => {
-      AgregarAlerta(createNewAlert, "HA OCURRIDO UN ERROR", "danger")
+      if (err.response.status == 403) {
+        AgregarAlerta(createNewAlert, "SESIÓN EXPIRADA", 'danger')
+      } else {
+        AgregarAlerta(createNewAlert, "HA OCURRIDO UN ERROR", "danger")
+      }
       console.error(err)
       localStorage.removeItem("UserInfo")
+      navigate(PATHS.LOGIN)
     }).finally(() => {
       setisLoading(false)
     })
@@ -142,7 +147,7 @@ const HomeScreen: React.FC = () => {
                   }
 
                   <span
-                    onClick={()=>{navigate(PATHS.DIRECTORY)}}
+                    onClick={() => { navigate(PATHS.DIRECTORY) }}
                     className="text-center underline duration-300 cursor-pointer hover:text-gray-300"
                   >
                     Ver mas ...

@@ -54,7 +54,7 @@ const Login = () => {
         if (username.toString().trim() !== "" && password.toString().trim() !== "") {
             axios.post(`/auth/login`, {
                 username,
-                password
+                password,
             }).then((response) => {
                 if (response.status == 200) {
                     localStorage.setItem("UserInfo", JSON.stringify(response.data))
