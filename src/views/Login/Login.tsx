@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { IDataUserProps } from '../../Context/UserContext'
 import { useAlerts } from '../../hooks/useAlerts'
 import { AgregarAlerta } from '../../utils/Helpers'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+
 
 const Login = () => {
     const [usernameFocused, setusernameFocused] = useState(false)
@@ -113,7 +115,7 @@ const Login = () => {
                             <div className={`inputTextWrap ${passwordFocused && "inputTextFocused"}`}>
                                 <span>Contraseña</span>
                             </div>
-                            <div>
+                            <div className='flex items-center gap-x-8'>
                                 <input
                                     type={viewPassword ? "text" : "password"}
                                     value={password}
@@ -128,7 +130,7 @@ const Login = () => {
                                         }
                                     }}
                                 />
-                                <span className='ViewPassword' style={{ display: passwordFocused ? "inline" : "none", cursor: 'pointer' }} onClick={() => setviewPassword(!viewPassword)}>{viewPassword ? "Ocultar" : "Mostrar"}</span>
+                                <span className='ViewPassword pb-1' style={{ display: passwordFocused ? "inline" : "none", cursor: 'pointer' }} onClick={() => setviewPassword(!viewPassword)}>{viewPassword ? <AiFillEyeInvisible size={24}/> : <AiFillEye size={24}/>}</span>
                             </div>
 
                         </label>

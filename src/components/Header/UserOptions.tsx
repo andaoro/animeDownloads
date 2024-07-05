@@ -5,17 +5,18 @@ import npcIcon from '../../assets/img/icons/npcIcon.jpg'
 import { MdFavorite, MdList, MdOutlineExitToApp, MdPlaylistPlay } from 'react-icons/md'
 import { FaUsers } from 'react-icons/fa'
 import { BsFillCollectionPlayFill } from 'react-icons/bs'
+import { GoFileDirectoryFill } from "react-icons/go";
 import { useNavigate } from 'react-router-dom'
 import PATHS from '../../routers/CONSTPATHS'
 
 type user = {
-    accessToken:string,
-    userType:string,
-    username:string
+    accessToken: string,
+    userType: string,
+    username: string
 }
 
 interface IPropsUserOptions {
-    user:user
+    user: user
 }
 
 const SectionsMenuHeader = ({ children }: { children: React.ReactNode }) => {
@@ -39,7 +40,7 @@ export const UserOptions: React.FC<IPropsUserOptions> = ({ user }) => {
                         </div>
                         <div>
                             <p className='capitalize text-bold'>{user.username}</p>
-                            <p className={`${user.userType !== "admin" ? 'text-Rsecondary':'text-yellow-300'}`}>{user.userType !== "admin" ? "Miembro" : "👑 Usuario Administrador"}</p>
+                            <p className={`${user.userType !== "admin" ? 'text-Rsecondary' : 'text-yellow-300'}`}>{user.userType !== "admin" ? "Miembro" : "👑 Usuario Administrador"}</p>
                         </div>
                     </div>
 
@@ -55,11 +56,11 @@ export const UserOptions: React.FC<IPropsUserOptions> = ({ user }) => {
                                 <span className='mr-6'><MdPlaylistPlay size={28} /></span>
                                 <span className=''>Playlist</span>
                             </div>
-                            <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary text-Tdefault' onClick={() => { navigate('/users') }}>
+                            <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary text-Tdefault' onClick={() => { navigate(PATHS.USERS) }}>
                                 <span className='mr-6'><FaUsers size={28} /></span>
                                 <span>Usuarios</span>
                             </div>
-                            <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary' onClick={() => { navigate('/animes_downloader') }}>
+                            <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary' onClick={() => { navigate(PATHS.ANIMES_DOWNLOADER) }}>
                                 <span className='mr-6'><BsFillCollectionPlayFill size={28} /></span>
                                 <span>Animes</span>
                             </div>
@@ -69,6 +70,10 @@ export const UserOptions: React.FC<IPropsUserOptions> = ({ user }) => {
                 <SectionsMenuHeader>
                     <div className='py-2'>
                         <span className='px-3 text-xs text-sky-50/75'>Opciones</span>
+                    </div>
+                    <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary' onClick={() => { navigate(PATHS.DIRECTORY) }}>
+                        <span className='mr-6'><GoFileDirectoryFill size={28} /></span>
+                        <span>Directorio</span>
                     </div>
                     <div className='flex items-center w-full px-6 py-4 cursor-pointer hover:bg-Rsecondary'>
                         <span className='mr-6'><MdFavorite size={28} /></span>

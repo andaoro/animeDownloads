@@ -24,7 +24,7 @@ export const Directory: React.FC = () => {
     const urlPage = new URLSearchParams(location.search).get('page')
 
     useEffect(() => {
-        if(user.accessToken.toString() !== ""){
+        if (user.accessToken.toString() !== "") {
             GetDirectory(page)
         }
     }, [page])
@@ -58,11 +58,9 @@ export const Directory: React.FC = () => {
 
     }
 
-
-
     return (
         <AppLayout>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 mt-6">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-6 mt-6 justify-items-center">
                 {
                     isLoadingData ? (
                         <div className='flex justify-center items-center w-screen my-12 flex-col gap-y-4'>
@@ -75,14 +73,10 @@ export const Directory: React.FC = () => {
                     ) :
                         (
                             animes.map((anime, index) => (
-                                <div className="h-96 relative group cursor-pointer" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
-                                    <img
-                                        src={`${URL_IMAGENES}${anime.imageUrl}`}
-                                        alt="Imagen de portada"
-                                        className="w-64 h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
-                                    />
-                                    <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all">{anime.title}</span>
-                                </div>
+                                <HomeCards
+                                    anime={anime}
+                                    key={index}
+                                />
                             ))
                         )
                 }

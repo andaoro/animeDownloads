@@ -162,17 +162,13 @@ const HomeScreen: React.FC = () => {
                 <ParamTitle text="Animes Recomendados" />
               </div>
 
-              <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-6 justify-items-center mt-6">
                 {
                   animesDownloadedArray.map((anime, index) => (
-                    <div className="relative cursor-pointer h-96 group" key={index} onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
-                      <img
-                        src={`${URL_IMAGENES}${anime.imageUrl}`}
-                        alt="Imagen de portada"
-                        className="object-cover w-full transition-all rounded h-96 brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105"
-                      />
-                      <span className="absolute mx-4 font-bold transition-all cursor-pointer bottom-4 group-hover:bottom-2">{anime.title}</span>
-                    </div>
+                    <HomeCards
+                      anime={anime}
+                      key={index}
+                    />
                   ))
                 }
               </div>

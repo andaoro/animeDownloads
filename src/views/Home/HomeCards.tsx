@@ -8,11 +8,11 @@ import { AiFillHeart } from "react-icons/ai";
 import { useAlerts } from '../../hooks/useAlerts';
 import { AgregarAlerta } from '../../utils/Helpers';
 import PATHS from '../../routers/CONSTPATHS';
+import { NavigateEpisodes } from '../../utils/navigates/NavigateEpisodes';
 
 
 interface IPropsHomeCards {
     anime: IAnimesDownloadedProps
-    index: number
 }
 
 const FormatedFecha = (fecha: string) => {
@@ -25,20 +25,20 @@ const FormatedFecha = (fecha: string) => {
     return fechaFormateada;
 }
 
-export const HomeCards: React.FC<IPropsHomeCards> = ({ anime, index }) => {
+export const HomeCards: React.FC<IPropsHomeCards> = ({ anime }) => {
 
     const navigate = useNavigate()
     const { alertas, createNewAlert } = useAlerts()
 
     return (
-        <div className='relative'>
-            <div key={index} className="anime_Dowloaded_Card relative hover:cursor-pointer hover:bg-Tsecondary/20 group p-3 group" onClick={() => { navigate(`${PATHS.EPISODES_VIEW.replace(":id", anime.id.toString()).replace(":anime_title", anime.title.replace(/[^\w\s]/gi, "").replace(/[ ]/gi, "-"))}`) }}>
-                <img src={`${URL_IMAGENES}${anime.imageUrl}`} className="w-64 h-96 object-cover opacity-80 group-hover:opacity-100" />
-                <div className='flex flex-col justify-between h-full py-2'>
-                    <p className=' text-white group-hover:text-Rsecondary transition-all duration-300 text-start'>{anime.title}</p>
-                    <span className='flex align-bottom text-Tsecondary text-xs'> {anime.emissionDate ? `${FormatedFecha(anime.emissionDate)}` : ""}</span>
-                </div>
-
+        <div className='h-96 w-64 relative group cursor-pointer'>
+            <div className="h-96 w-64 relative group cursor-pointer" onClick={() => { NavigateEpisodes(navigate, anime.id, anime.title) }}>
+                <img
+                    src={`${URL_IMAGENES}${anime.imageUrl}`}
+                    alt="Imagen de portada"
+                    className="w-full h-full brightness-75 opacity-80 group-hover:brightness-100 hover:scale-105 transition-all rounded"
+                />
+                <span className="absolute bottom-4 mx-4 font-bold cursor-pointer group-hover:bottom-2 transition-all pointer-events-none">{anime.title}</span>
             </div>
             <span
                 className='absolute top-4 left-4 z-20 text-gray-90 hover:text-red-600'
